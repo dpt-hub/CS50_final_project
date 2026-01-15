@@ -7,7 +7,7 @@ def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(current_app.config['DATABASE'])
 
-        # Makes it possible to access data using named indexes (e.g row["name"] fetches data for that key)
+        # Makes it possible to access data using named indexes (e.g row["name"] fetches data "name" key)
         g.db.row_factory = sqlite3.Row
 
     return g.db
