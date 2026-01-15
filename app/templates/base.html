@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <nav class="navbar bg-dark justify-content-between px-4" data-bs-theme="dark" >
+    <nav class="navbar bg-dark justify-content-between px-4 shadow" data-bs-theme="dark" >
         <div class="d-flex align-items-center justify-content-start p-2">
             <a class="navbar-brand fs-3" href="#">
-                <img src="../static/logo.png" class="d-inline-block align-text-top" height="34" alt="orange gps marker">
+                <img src="../static/logo.webp" class="d-inline-block align-text-top" height="34" alt="orange gps marker">
                 Route Optimizer
             </a>
             <ul class="navbar-nav flex-row p-2 fs-5 mx-3">
@@ -28,9 +28,27 @@
         </div>
         <div class="ml-auto p-2">
             <a href="" class="mx-2"><button class="btn btn-outline-light btn-lg" type="button">Login In</button></a>
-            <a href=""><button class="btn btn-light btn-lg" type="button">Register</button></a>
+            <a href=""><button class="btn btn-primary btn-lg" type="button">Register</button></a>
         </div>
     </nav>
+    <main>
+        <div class="px-4 pt-5 my-5 text-center border-bottom" id="hero">
+            <h1>Get your salespeople to your clients. Faster.</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">
+                    Stop wasting hours on manual planning. Our intelligent route optimization helps your field team hit 25% more leads every week while slashing fuel costs and travel fatigue.
+                </p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-3">
+                    <button type="button" class="btn btn-primary btn-lg">Start Your Free Trial</button>
+                </div>
+            </div>
+            <div class="overflow-hidden" style="max-height: 30vh;">
+                <div class="container px-5">
+                    <img src="../static/route_optimization.webp" class="rounded-3 shadow-lg mb-4" height="400" alt="chart showing an unoptimized and an optimized route">
+                </div>
+            </div>
+        </div>
+    </main>
     {% block content %}{% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

@@ -30,7 +30,7 @@ def create_app(test_config=None):
 
     @app.route('/')
     def landing_page():
-        return render_template('base.html')
+        return render_template('landing_page.html')
 
     return app
 
