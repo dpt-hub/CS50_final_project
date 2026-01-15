@@ -1,7 +1,7 @@
 from .db import get_db
 from .auth import login_required
 
-from flask import Blueprint, request, g, route, url_for, render_template
+from flask import Blueprint, request, g, url_for, render_template
 
 # Add variables to flask.route
 from markupsafe import escape
@@ -39,6 +39,7 @@ def show_list():
 @bp.route('/list/<client>', methods=('GET', 'POST'))
 @login_required
 def show_client(client):
+    # Configure a current client variable to be client_id
     g.client = client
 
     # After user tries to edit client
@@ -73,7 +74,6 @@ def show_client(client):
             db.commit()
         except db.ProgrammingError:
             flash('Couldn\'t save information.')
-
 
     # Load current client information
     db = get_db()

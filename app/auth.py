@@ -1,6 +1,6 @@
 from .db import get_db
 
-from flask import Blueprint, g, route, request, render_template, flash, session, redirect, url_for
+from flask import Blueprint, g, request, render_template, flash, session, redirect, url_for
 
 import werkzeug.security
 import functools
