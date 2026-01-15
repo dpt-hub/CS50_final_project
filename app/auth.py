@@ -4,6 +4,7 @@ from .db import get_db
 from flask import Blueprint, route, request, render_template
 
 import werkzeug.security
+import functools
 
 bp = Blueprint('auth', __name__, url_prefix='/auth' )
 
@@ -73,4 +74,30 @@ def login():
             return 0
     
     return render_template('auth/login.html')
+
+@bp.before_app_request
+def load_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_db().execute('SELECT * FROM user WHERE id = ?', user_id).fetchone()
+
+@bp.route('/logout')
+def logout():
+    session.clear
+
+    # TODO: Redirect to index or login
+
+    return 0
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
         
+        return view(**kwargs)
+
+    return wrapped_view
