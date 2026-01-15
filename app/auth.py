@@ -1,7 +1,6 @@
 from .db import get_db
-# Imports sqlite3 aswell
 
-from flask import Blueprint, route, request, render_template
+from flask import Blueprint, g, route, request, render_template, flash, session, redirect, url_for
 
 import werkzeug.security
 import functools
@@ -69,9 +68,7 @@ def login():
             flash('Incorrect password.')
         else:
 
-            # TODO: Redirect to main application
-            
-            return 0
+            return redirect(url_for)
     
     return render_template('auth/login.html')
 
@@ -86,11 +83,8 @@ def load_user():
 
 @bp.route('/logout')
 def logout():
-    session.clear
-
-    # TODO: Redirect to index or login
-
-    return 0
+    session.clear()
+    return redirect(url_for('auth.login'))
 
 def login_required(view):
     @functools.wraps(view)
