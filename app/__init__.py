@@ -5,7 +5,7 @@ from flask import Flask
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_mapping(
-        SECRET_KEY='TOFILL'
+        SECRET_KEY='TOFILL',
         DATABASE=os.path.join(app.instance_path, 'TOFILL.db')
     )
 
@@ -16,8 +16,11 @@ def create_app(test_config=None):
 
     try:
         os.makedirs(app.instance_path)
-    except: OSError:
+    except OSError:
         pass
+
+    from .db import close_db
+    app.teardown_appcontext(close_db)
 
     from . import auth
     app.register_blueprint(auth.bp)
@@ -25,4 +28,9 @@ def create_app(test_config=None):
     from . import main
     app.register_blueprint(main.bp)
 
+    @app.route('/')
+    def landing_page():
+        return render_template('index.html')
+
     return app
+
