@@ -1,4 +1,57 @@
 {% extends "/home/base.html" %}
 {% block content %}
-
+    <div class="container py-4 mt-4 max">
+        <div class="row align-items-center">
+            <div class="col-5">
+                <p class="text-body-secondary">Our Story</p>
+                <h1>About Us</h1>
+                <p>Efficiency is the engine of growth. In field sales, the most valuable asset isn’t the vehicle or the fuel—it’s the time your salespeople spend face-to-face with clients. The mission here is to protect that time by eliminating the logistical friction that slows businesses down.</p>
+            </div>
+            <div class="col">
+                <p>The "cost of doing business" is often inflated by invisible waste. Hours lost to poor navigation and capital spent on unnecessary mileage act as a constant drain on profit margins. By applying advanced routing logic to everyday sales territories, those "lost" resources are recovered and reinvested back into the company’s bottom line.</p>
+                <p>Technology should serve the user, not the other way around. Every feature is built with a focus on field-tested reliability and immediate ease of use. This isn't just about providing a map; it’s about providing a strategic advantage that helps business owners scale their operations, empower their teams, and dominate their markets.</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-100 border-top"></div>
+    <div class="container py-4 mt-4">
+        <h2 class="text-center">Reliability You Can Bank On</h2>
+        <div class="d-flex gap-5 mt-5">
+            <div>
+                <h3 class="fs-5">1. Data Sovereignty and Security</h3>
+                <p class="text-body-secondary">Client lists and territory data are the lifeblood of a sales organization. Every record is protected with enterprise-grade encryption and stored in secure, world-class data centers. Your proprietary information remains yours alone, never shared, never sold, and always accessible only to authorized users.</p>
+            </div>
+            <div>
+                <h3 class="fs-5">2. Performance Without Downtime</h3>
+                <p class="text-body-secondary">The field doesn't wait for technical glitches. The infrastructure is built for high availability, ensuring that routes are generated and maps are loaded instantly, whether a rep is starting their day at 6:00 AM or finishing a final meeting at dusk. Reliability is a commitment, not an option.</p>
+            </div>
+            <div>
+                <h3 class="fs-5">3. Privacy-First Territory Tracking</h3>
+                <p class="text-body-secondary">Accountability is essential, but privacy is respected. Tracking features are designed specifically for professional transparency, focusing on mileage accuracy and visit verification. This builds a culture of trust between owners and reps, ensuring the focus remains on results rather than micromanagement.</p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <img src="{{ url_for('static', filename='map.png') }}" alt="">
+        <div class="container max">
+            <div class="bg-white p-5 rounded shadow mt-5">
+                <h3 class="text-center">Contact Us</h3>
+                <form class="form border-top">
+                    <div class="my-3">
+                        <label for="name">Name:</label>
+                        <input class="form-control" type="text" placeholder="Your name" id="name">
+                    </div>
+                    <div class="my-3">
+                        <label for="email">Email:</label>
+                        <input class="form-control" type="text" placeholder="Your email" id="email">
+                    </div>
+                    <div class="my-3">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" id="message" placeholder="Your message" rows="4"></textarea>
+                        <button class="btn btn-primary my-3" type="submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
