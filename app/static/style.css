@@ -74,5 +74,18 @@
     --bs-accordion-body-padding-x: 1.25rem;
     --bs-accordion-body-padding-y: 1rem;
     --bs-accordion-active-color: rgba(31, 14, 0, 0.678);
-    --bs-accordion-active-bg: rgba(253, 126, 20, 0.25);
+    --bs-accordion-active-bg: rgba(255, 115, 0, 0.25);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background-color: #fd7e14;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+    background-color: #fd7d1459;
+    outline: 4px solid #ffb578d3;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+    outline: 4px solid #ffb578d3;
 }
