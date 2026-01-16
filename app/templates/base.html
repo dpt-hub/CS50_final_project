@@ -6,13 +6,16 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/style.css">
+    <link rel="icon" href="../static/logo.svg">
 </head>
 <body>
     <nav class="navbar bg-dark justify-content-between px-4 shadow fixed-top" data-bs-theme="dark" >
         <div class="d-flex align-items-center justify-content-start">
             <a class="navbar-brand fs-3" href="#">
-                <img src="../static/logo.webp" class="d-inline-block align-text-top" height="34" alt="orange gps marker">
-                Route Optimizer
+                <svg xmlns="http://www.w3.org/2000/svg" width="32"  fill="currentColor" class="bi bi-geo-alt-fill align-text-top" viewBox="0 0 16 16">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                </svg>
+                RapidRep
             </a>
             <ul class="navbar-nav flex-row p-2 fs-5 mx-3">
                 <li class="nav-item p-2 mx-2">
@@ -31,72 +34,17 @@
             <a href=""><button class="btn btn-primary btn-lg" type="button">Register</button></a>
         </div>
     </nav>
-    <main class="main-margin">
-        <div class="px-4 pt-5 mt-5 text-center border-bottom" id="hero">
-            <h1>Get your salespeople to your clients. Faster.</h1>
-            <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4">
-                    Stop wasting hours on manual planning. Our intelligent route optimization helps your field team hit 25% more leads every week while slashing fuel costs and travel fatigue.
-                </p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-3">
-                    <button type="button" class="btn btn-primary btn-lg">Start Your Free Trial</button>
-                </div>
-            </div>
-            <div class="overflow-hidden" style="max-height: 30vh;">
-                <div class="container px-5">
-                    <img src="../static/route_optimization.webp" class="rounded-3 shadow-lg mb-4" height="400" alt="chart showing an unoptimized and an optimized route">
-                </div>
-            </div>
-        </div>
-        <div class="b-example-divider"></div>
-        <div class="bg-dark" data-bs-theme="dark">
-            <div class="container px-4 py-5 text-light">
-                <h2 class="pb-2 border-bottom">Give Your Team the Home Field Advantage</h2>
-                <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-                    <div class="col d-flex align-items-start">
-                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 flex-shrink-0 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
-                                <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="fs-2 text-body-emphasis">Reclaim Lost Hours</h3>
-                            <p>Turn 1–2 hours of daily "windshield time" into productive selling time. By cutting inefficient travel, your reps finish their routes faster, reach more clients, and get home earlier.</p>
-                        </div>
-                    </div>
-                    <div class="col d-flex align-items-start">
-                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 flex-shrink-0 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" class="bi bi-fuel-pump" viewBox="0 0 16 16">
-                                <path d="M3 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5z"/>
-                                <path d="M1 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1 2 2v.5a.5.5 0 0 0 1 0V8h-.5a.5.5 0 0 1-.5-.5V4.375a.5.5 0 0 1 .5-.5h1.495c-.011-.476-.053-.894-.201-1.222a.97.97 0 0 0-.394-.458c-.184-.11-.464-.195-.9-.195a.5.5 0 0 1 0-1q.846-.002 1.412.336c.383.228.634.551.794.907.295.655.294 1.465.294 2.081v3.175a.5.5 0 0 1-.5.501H15v4.5a1.5 1.5 0 0 1-3 0V12a1 1 0 0 0-1-1v4h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1zm9 0a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v13h8z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="fs-2 text-body-emphasis">Fuel Savings</h3>
-                            <p>Protect your margins by eliminating unnecessary mileage. Every rep on the road saves an average of 35€ in fuel costs per month, turning wasted overhead into immediate bottom-line profit.</p>
-                        </div>
-                    </div>
-                    <div class="col d-flex align-items-start">
-                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 flex-shrink-0 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
-                                <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
-                                <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
-                                <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="fs-2 text-body-emphasis">Maximize Daily Visits</h3>
-                            <p>Expand your market footprint by visiting 2 additional prospects per day, per rep. Your current team gains the capacity to drive more revenue and close more deals without the need for new hires.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="b-example-divider"></div>
-        <div></div>
-    </main>
     {% block content %}{% endblock %}
+    <footer class="d-flex flex-wrap align-items-center justify-content-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <a href="#" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25"  fill="currentColor" class="bi bi-geo-alt-fill align-text-top" viewBox="0 0 16 16">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                </svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2026 RapidRep, Inc.</span>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
