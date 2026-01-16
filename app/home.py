@@ -14,8 +14,6 @@ def features():
 
 @bp.route('/pricing')
 def pricing():
-
-    # TODO: Create html file
     return render_template('home/pricing.html')
 
 @bp.route('/about-us')
