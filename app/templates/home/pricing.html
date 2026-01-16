@@ -1,4 +1,65 @@
 {% extends "/home/base.html" %}
 {% block content %}
-
+    <div class="container py-4 mt-4 max">
+        <div class="p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-3 fw-normal">Pricing</h1>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Free</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$0 <small class="text-body-secondary fw-light">/mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Up to 5 daily stops</li>
+                            <li>Basic route ordering</li>
+                            <li>Standard map view</li>
+                            <li>Email support</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Pro</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$30 <small class="text-body-secondary fw-light">/mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Unlimited daily stops</li>
+                            <li>Smart multi-stop optimization</li>
+                            <li>Fuel and time savings reports</li>
+                            <li>Priority live support</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-primary">Get Pro Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal">Enterprise</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">Custom</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Full API Access</li>
+                            <li>Dedicated Account Manager</li>
+                            <li>Custom CRM Integrations</li>
+                            <li>Fleet-wide analytics</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-primary">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 pb-md-4 mx-auto text-center">
+            <p class="fs-4 text-body-secondary"><strong>Turn every vehicle into a high-performance sales machine.</strong></p>
+            <p class="fs-5 text-body-secondary">Every plan is designed to save more in fuel and recovered labor hours than it costs in subscription fees. Select the tier that matches your team's ambition and watch the software pay for itself through sheer efficiency.</p>
+        </div>
+    </div>
 {% endblock %}
