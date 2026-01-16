@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar bg-dark justify-content-between px-4 shadow fixed-top" data-bs-theme="dark" >
         <div class="d-flex align-items-center justify-content-start">
-            <a class="navbar-brand fs-3" href="#">
+            <a class="navbar-brand fs-3" href="{{ url_for('home.homepage') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32"  fill="currentColor" class="bi bi-geo-alt-fill align-text-top" viewBox="0 0 16 16">
                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
                 </svg>
@@ -19,13 +19,13 @@
             </a>
             <ul class="navbar-nav flex-row p-2 fs-5 mx-3">
                 <li class="nav-item p-2 mx-2">
-                    <a class='nav-link' href="#">Features</a>
+                    <a class='nav-link' href="{{ url_for('home.features') }}">Features</a>
                 </li>
                 <li class="nav-item p-2 mx-2">
-                    <a class='nav-link' href="#">Pricing</a>
+                    <a class='nav-link' href="{{ url_for('home.pricing') }}">Pricing</a>
                 </li>
                 <li class="nav-item p-2 mx-2">
-                    <a class='nav-link' href="#">About Us</a>
+                    <a class='nav-link' href="{{ url_for('home.about_us') }}">About Us</a>
                 </li>
             </ul>
         </div>
