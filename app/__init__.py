@@ -28,9 +28,8 @@ def create_app(test_config=None):
     from . import main
     app.register_blueprint(main.bp)
 
-    @app.route('/')
-    def landing_page():
-        return render_template('landing_page.html')
+    from . import home
+    app.register_blueprint(home.py)
 
     return app
 
