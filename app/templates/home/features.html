@@ -1,6 +1,56 @@
 {% extends "/home/base.html" %}
 {% block content %}
-
+    
+    <div class="container px-4 py-5">
+        <h1 class="display-3 fw-normal">Features</h1>
+        <div class="align-items-md-center g-5 py-5">
+            <div class="d-flex gap-5 flex-wrap">
+                <div class="d-flex container maxfeature flex-column gap-2">
+                    <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Smart Territory Mapping</h4>
+                    <p class="text-body-secondary">Divide and conquer territories with precision. Visualise client density and ensure reps are deployed exactly where the highest-value opportunities live, eliminating overlap and wasted effort.</p>
+                </div>
+                <div class="d-flex container maxfeature flex-column gap-2">
+                    <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Live Field Visibility</h4>
+                    <p class="text-body-secondary">Stay connected to the road without micromanaging. Monitor progress throughout the day and see exactly when stops are completed, giving total confidence in the team's daily output.</p>
+                </div>
+                <div class="d-flex container maxfeature flex-column gap-2">
+                    <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
+                            <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">One-Touch Optimization</h4>
+                    <p class="text-body-secondary">Remove the morning "planning tax." Reps generate fully optimized, turn-by-turn routes in seconds, allowing them to start their first meeting while the competition is still staring at a spreadsheet.</p>
+                </div>
+                <div class="d-flex container maxfeature flex-column gap-2">
+                    <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Performance Analytics</h4>
+                    <p class="text-body-secondary">Stop guessing which routes are profitable. Access detailed reports on cost-per-visit and time-on-site to make data-driven decisions that increase the ROI of every kilometer driven.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center bg-dark">
+        <div class="container p-5">
+            <p class="fs-4 text-white"><strong>See the impact of a more efficient fleet.</strong></p>
+            <p class="fs-5 text-white">Discover how much more the current team can achieve without hiring a single new rep. Adjust the sliders to see how reclaimed hours and optimized routes translate directly into monthly fuel savings and increased closing opportunities.</p>
+        </div>
+    </div>
     <div class="card mb-4 rounded-3 shadow-sm container text-center mt-5 max p-0">
         <div class="card-header py-3">
                 <h2 class="my-0 display-6 fw-normal">ROI Calculator</h2>
@@ -47,12 +97,6 @@
                 <output name="result" for="aovInput" id="aovOutput">$100</output>
             </div>
         </form>
-    </div>
-    <div class="text-center bg-dark mt-5">
-        <div class="container p-5">
-            <p class="fs-4 text-white"><strong>See the impact of a more efficient fleet.</strong></p>
-            <p class="fs-5 text-white">Discover how much more the current team can achieve without hiring a single new rep. Adjust the sliders to see how reclaimed hours and optimized routes translate directly into monthly fuel savings and increased closing opportunities.</p>
-        </div>
     </div>
 {% endblock %}
 {% block jsscripts %}
