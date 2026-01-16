@@ -29,7 +29,7 @@ def create_app(test_config=None):
     app.register_blueprint(main.bp)
 
     from . import home
-    app.register_blueprint(home.py)
+    app.register_blueprint(home.bp)
 
     return app
 
