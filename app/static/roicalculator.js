@@ -14,14 +14,14 @@ let investmentCalculator = () => {
     // Set default values
     salespeopleOutput.textContent = salespeopleInput.value;
     gasSavingsOutput.textContent =  `$${salespeopleInput.value * 35}`;
-    savedTimeOutput.textContent = `${salespeopleInput.value * 1.5} h`
+    savedTimeOutput.textContent = `${salespeopleInput.value * 22} h`
     newRevenueOutput.textContent = `$${salespeopleInput.value * 1.5 * aovInput.value}`
 
     // Implementing changes into output values
     salespeopleInput.addEventListener('input', () => {
         salespeopleOutput.textContent = `${salespeopleInput.value}`;
         gasSavingsOutput.textContent =  `$${salespeopleInput.value * 35}`;
-        savedTimeOutput.textContent = `${salespeopleInput.value * 1.5} h`;
+        savedTimeOutput.textContent = `${salespeopleInput.value * 22} h`;
         newRevenueOutput.textContent = `$${salespeopleInput.value * 1.5 * aovInput.value}`;
     });
 
