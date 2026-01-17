@@ -1,6 +1,6 @@
 CREATE TABLE users (
     user_id INTEGER PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
     hashed_password TEXT NOT NULL
 );
 

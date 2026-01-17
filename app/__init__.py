@@ -6,7 +6,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY='TOFILL',
-        DATABASE=os.path.join(app.instance_path, 'TOFILL.db')
+        DATABASE=os.path.join(app.instance_path, 'main.db')
     )
 
     if test_config is None:
