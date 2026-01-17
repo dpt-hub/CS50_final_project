@@ -1,0 +1,29 @@
+{% extends "/auth/baseauth.html" %}
+
+{% block content %}
+    <h2 class="display-6 fw-normal">Secure Login</h2>
+        <p class="text-body-secondary pt-2">Let's optimize your working day!</p>
+        <form action="" id="login">
+            <div class="form-group d-flex flex-column py-2">
+                <label class="text-start" for="email">Email Address</label>
+                <input autocomplete="email" autofocus type="email" name="email" class="form-control p-2" placeholder="Email*" id="email" required>
+            </div>
+            <div class="form-group d-flex flex-column py-2 my-2">
+                <label class="text-start" for="password">Password</label>
+                <input type="password" name="password" class="form-control p-2" placeholder="Password*" id="password" required>
+                <a href="#" class="text-start text-decoration-none mt-3 fw-bold link-primary">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg mt-1">Log In</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="mt-4 mb-0 text-danger fw-bold">{{ messages }}</p>
+            {% endif %}
+        {% endwith %}
+{% endblock %}
+
+{% block login %}
+        <a class="mt-4 text-white fw-bold text-decoration-none" href="{{ url_for('auth.register')}}">New to RapidRep? Sign up here</a>
+{% endblock %} 
+
+{% block jsscripts %}{% endblock %}

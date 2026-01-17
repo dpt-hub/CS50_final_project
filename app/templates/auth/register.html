@@ -1,0 +1,31 @@
+{% extends "/auth/baseauth.html" %}
+
+{% block content %}
+    <h2 class="display-6 fw-normal">Register</h2>
+        <form action="" id="login">
+            <div class="form-group d-flex flex-column py-2">
+                <label class="text-start" for="email">Email Address</label>
+                <input autocomplete="email" autofocus type="email" name="email" class="form-control p-2" placeholder="Email*" id="email" required>
+            </div>
+            <div class="form-group d-flex flex-column py-2 my-2">
+                <label class="text-start" for="password">Password</label>
+                <input type="password" name="password" class="form-control p-2" placeholder="Password*" id="password" required>
+            </div>
+            <div class="form-group d-flex flex-column py-2 my-2">
+                <label class="text-start" for="password">Confirm Password</label>
+                <input type="password" name="cpassword" class="form-control p-2" placeholder="Confirm your Password*" id="cpassword" required>
+            </div>
+            <div class="form-group py-2 my-2 text-start">
+                <input type="checkbox" class="form-check-input mr-2" name="terms" id="terms" required>
+                <label for="terms" class="form-check-label">I agree to the <a href="#">Terms and Conditions</a></label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg mt-1">Register</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="mt-4 mb-0 text-danger fw-bold">{{ messages }}</p>
+            {% endif %}
+        {% endwith %}
+{% endblock %}
+
+{% block jsscripts %}{% endblock %}
