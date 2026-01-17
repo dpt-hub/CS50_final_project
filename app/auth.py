@@ -11,33 +11,41 @@ bp = Blueprint('auth', __name__, url_prefix='/auth' )
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
 
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+    if g.user is None: 
 
-        if not username:
-            flash('Username required.')
-        elif not password or not confirm_password:
-            flash('Password required.')
-        elif password != confirm_password:
-            flash('Matching passwords required.')
+        if request.method == 'POST':
+            username = request.form.get('username')
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm_password')
 
-        db = get_db()
-        cur = db.cursor()
-        try:
-            cur.execute(
-                'INSERT INTO users (username, hashed_password) VALUES (?, ?)',
-                username,
-                generate_password_hash(password)
-            )
-            db.commit()
-            return redirect(url_for('auth.login'))
+            if not username:
+                error = 'Username required.'
+            elif not password or not confirm_password:
+                error = 'Password required.'
+            elif password != confirm_password:
+                error = 'Matching passwords required.'
 
-        except db.IntegrityError:
-            flash('Username already taken.')
+            db = get_db()
+            cur = db.cursor()
+            try:
+                cur.execute(
+                    'INSERT INTO users (username, hashed_password) VALUES (?, ?)',
+                    username,
+                    generate_password_hash(password)
+                )
+                db.commit()
+                return redirect(url_for('auth.login'))
 
-    return render_template('auth/register.html')
+            except db.IntegrityError:
+                error:'Username already taken.'
+
+        flash(error)
+        
+        return render_template('auth/register.html')
+    
+    else:
+
+        return redirect(url_for('auth.login'))
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -48,27 +56,31 @@ def login():
         password = request.form.get('password')
 
         if not username:
-            flash('Username required.')
+            error = 'Username required.'
         elif not password:
-            flash('Password required.')
+            error = 'Password required'
 
         db = get_db()
         cur = db.cursor()
-        res = cur.execute('SELECT * FROM users WHERE username = ?', username)
+        res = cur.execute('SELECT * FROM users WHERE username = ?', username).fetchone()
 
-        if res.fetchone() is None:
+        if res is None:
 
             # TODO: Change error message to give out less information to user (Debugging Mode)
 
-            flash('Incorrect username.')
+            error = 'Incorrect username.'
         elif not check_password_hash(res["password"], password):
 
             # TODO: Change error message to give out less information to user (Debugging Mode)
 
-            flash('Incorrect password.')
-        else:
+            error = 'Incorrect password.'
 
-            return redirect(url_for)
+        if error is None:
+            session.clear()
+            session['user_id'] = res['user_id']
+            return redirect(url_for('main'))
+        
+        flash(error)
     
     return render_template('auth/login.html')
 
