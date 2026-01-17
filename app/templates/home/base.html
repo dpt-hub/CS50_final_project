@@ -30,8 +30,8 @@
             </ul>
         </div>
         <div class="ml-auto p-2">
-            <a href="" class="mx-2"><button class="btn btn-outline-light btn-lg" type="button">Login In</button></a>
-            <a href=""><button class="btn btn-primary btn-lg" type="button">Register</button></a>
+            <a href="{{ url_for('auth.login') }}" class="mx-2"><button class="btn btn-outline-light btn-lg" type="button">Login In</button></a>
+            <a href="{{ url_for('auth.register') }}"><button class="btn btn-primary btn-lg" type="button">Register</button></a>
         </div>
     </nav>
     <div style="height: 5.5em;"></div>
