@@ -4,7 +4,7 @@
         <div class="row align-items-center">
             <div class="col-5">
                 <p class="text-body-secondary">Our Story</p>
-                <h1>About Us</h1>
+                <h1 class="display-3 fw-normal">About Us</h1>
                 <p>Efficiency is the engine of growth. In field sales, the most valuable asset isn’t the vehicle or the fuel—it’s the time your salespeople spend face-to-face with clients. The mission here is to protect that time by eliminating the logistical friction that slows businesses down.</p>
             </div>
             <div class="col">
@@ -32,11 +32,11 @@
         </div>
     </div>
     <div class="mt-4">
-        <img src="{{ url_for('static', filename='map.png') }}" alt="">
-        <div class="container max">
+        <img src="{{ url_for('static', filename='map.png') }}" class="crop-img" alt="">
+        <div class="container max map">
             <div class="bg-white p-5 rounded shadow mt-5">
-                <h3 class="text-center">Contact Us</h3>
-                <form class="form border-top">
+                <h3 class="text-center display-5 fw-normal">Contact Us</h3>
+                <form class="form">
                     <div class="my-3">
                         <label for="name">Name:</label>
                         <input class="form-control" type="text" placeholder="Your name" id="name">
