@@ -20,24 +20,24 @@ def map():
     # TODO: Add client data to map logic (if needed)
 
     # Render map
-    return render_template('main/main.html')
+    return render_template('main/map.html')
 
 
-@bp.route('/list')
+@bp.route('/clients')
 @login_required
 def client_list():
 
     # Fetch user's client database from db
     db = get_db()
     cur = db.cursor()
-    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', g.user["user_id"]).fetchall()
+    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
 
     # TODO: Add client data to list logic
 
-    return render_template('main/list.html')
+    return render_template('main/clients.html')
 
 
-@bp.route('/list/<client>', methods=('GET', 'POST'))
+@bp.route('/clients/<client>', methods=('GET', 'POST'))
 @login_required
 def single_client(client):
     # Configure a current client variable to be client_id
@@ -79,10 +79,23 @@ def single_client(client):
     # Load current client information
     db = get_db()
     cur = db.cursor()
-    client = cur.execute('SELECT * FROM clients WHERE client_id = ? AND user_id = ?', g.client, g.user['user.id']).fetchone()
+    client = cur.execute('SELECT * FROM clients WHERE client_id = ? AND user_id = ?', (g.client, g.user['user.id'])).fetchone()
 
     # Check for error in retrieving client info
     if client is None:
         flash('Couldn\'t retrieve client\'s information.')
 
     return render_template('main/client.html')
+
+@bp.route('/reports')
+@login_required
+def reports():
+
+    # Fetch user's client database from db
+    db = get_db()
+    cur = db.cursor()
+    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+
+    # TODO: Add client data to list logic
+
+    return render_template('main/reports.html')

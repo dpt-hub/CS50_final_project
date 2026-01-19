@@ -1,37 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../static/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <link rel="icon" href="../../static/logo.svg">
-    <title>RapidRep</title>
-</head>
-<body>
-    <nav class="navbar justify-content-between px-4 border-bottom vh-10" >
-            <div class="d-flex align-items-center justify-content-start">
-                <a class="navbar-brand fs-3 text-primary" href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32"  fill="currentColor" class="bi bi-geo-alt-fill align-text-top" viewBox="0 0 16 16">
-                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                    </svg>
-                    RapidRep
-                </a>
-                <ul class="navbar-nav flex-row p-2 fs-5 mx-3">
-                    <li class="nav-item p-2 mx-3">
-                        <a class='nav-link active' href="#">Map View</a>
-                    </li>
-                    <li class="nav-item p-2 mx-3">
-                        <a class='nav-link' href="#">Clients</a>
-                    </li>
-                    <li class="nav-item p-2 mx-3">
-                        <a class='nav-link' href="#">Reports</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+{% extends "main/basemain.html" %}
+{% block content %}
         <main class="row container-fluid p-0 m-0">
                 <div class="col-2 border-right fs-4 d-flex flex-column justify-content-between my-5">
                     <div class="container p-3 mx-4">
@@ -99,9 +67,7 @@
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='map.js') }}"></script>
-</body>
-</html>
-
+{% endblock %}
 
 
         

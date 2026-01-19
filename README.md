@@ -17,9 +17,9 @@ Note: I can use search tools to search for concepts that I don't fully understan
 
 - HTML
 - CSS (Bootstrap)
-- Javascript 
+- Javascript (Leaflet)
 
 ### Back-end
 
 - SQLite
-- Python (Flask, sqlite3)
+- Python (Flask, os, sqlite3, functools, werkzeug)
