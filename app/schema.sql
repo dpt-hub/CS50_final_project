@@ -9,6 +9,6 @@ CREATE TABLE clients (
     user_id INTEGER,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
-    lattitude REAL NOT NULL,
+    latitude REAL NOT NULL,
     longitude REAL NOT NULL
 );

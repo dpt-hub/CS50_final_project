@@ -1,7 +1,7 @@
 from .db import get_db
 from .auth import login_required
 
-from flask import Blueprint, request, g, url_for, render_template
+from flask import Blueprint, request, g, url_for, render_template, jsonify
 
 # Add variables to flask.route
 from markupsafe import escape
@@ -12,13 +12,6 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 @login_required
 def map():
     
-    # Fetch user's client database from db
-    db = get_db()
-    cur = db.cursor()
-    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-
-    # TODO: Add client data to map logic (if needed)
-
     # Render map
     return render_template('main/map.html')
 
@@ -26,11 +19,6 @@ def map():
 @bp.route('/clients')
 @login_required
 def client_list():
-
-    # Fetch user's client database from db
-    db = get_db()
-    cur = db.cursor()
-    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
 
     # TODO: Add client data to list logic
 
@@ -91,11 +79,30 @@ def single_client(client):
 @login_required
 def reports():
 
+    # TODO: Add client data to list logic
+
+    return render_template('main/reports.html')
+
+@bp.route('/fetch-clients')
+@login_required
+def fetch_clients():
     # Fetch user's client database from db
     db = get_db()
     cur = db.cursor()
     clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
 
-    # TODO: Add client data to list logic
-
-    return render_template('main/reports.html')
+    # Render clients into json to be processed by javascript code
+    temp = []
+    for client in clients:
+        name = client["name"]
+        type = client["type"]
+        latitude = client["latitude"]
+        longitude = client["longitude"]
+        temp.append({
+            "name": name,
+            "type": type,
+            "latitude": latitude,
+            "longitude": longitude
+            })
+        
+    return jsonify(temp)
