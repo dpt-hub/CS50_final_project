@@ -129,3 +129,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
 .login {
     width: 38%
 }
+
+#map {
+    height: 90.2vh;
+}

@@ -22,6 +22,7 @@ def map():
     # Render map
     return render_template('main/main.html')
 
+
 @bp.route('/list')
 @login_required
 def client_list():
