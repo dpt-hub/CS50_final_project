@@ -8,6 +8,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let addMarker = (lat, lon) => {
     let marker = L.marker([lat, lon]).addTo(map);
+    return marker
 }
 
 async function loadClients() {
@@ -15,7 +16,8 @@ async function loadClients() {
     let clients = await response.json()
     for (let client of clients)
     {
-        addMarker(client["latitude"], client["longitude"]);
+        let marker = addMarker(client["latitude"], client["longitude"]);
+        marker.bindPopup(`<b>Name:</b> ${client["name"]}<br><b>Type:</b> ${client["type"]}`)
     }
 }
 
