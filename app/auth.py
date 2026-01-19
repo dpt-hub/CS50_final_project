@@ -64,18 +64,14 @@ def login():
 
         db = get_db()
         cur = db.cursor()
-        res = cur.execute('SELECT * FROM users WHERE email = ?', email).fetchone()
+        res = cur.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
 
         if res is None:
 
-            # TODO: Change error message to give out less information to user (Debugging Mode)
+            error = 'Incorrect email or password.'
+        elif not check_password_hash(res['hashed_password'], password):
 
-            error = 'Incorrect email.'
-        elif not check_password_hash(res["password"], password):
-
-            # TODO: Change error message to give out less information to user (Debugging Mode)
-
-            error = 'Incorrect password.'
+            error = 'Incorrect email or password'
 
         if error is None:
             session.clear()
@@ -84,8 +80,7 @@ def login():
         
         flash(error)
     
-    else:
-        return render_template('auth/login.html')
+    return render_template('auth/login.html')
 
 @bp.before_app_request
 def load_user():
