@@ -10,21 +10,21 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 
 @bp.route('/')
 @login_required
-def show_map():
+def map():
     
     # Fetch user's client database from db
     db = get_db()
     cur = db.cursor()
-    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', g.user["user_id"]).fetchall()
+    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
 
     # TODO: Add client data to map logic (if needed)
 
     # Render map
-    return render_template('main.html')
+    return render_template('main/main.html')
 
 @bp.route('/list')
 @login_required
-def show_list():
+def client_list():
 
     # Fetch user's client database from db
     db = get_db()
@@ -38,7 +38,7 @@ def show_list():
 
 @bp.route('/list/<client>', methods=('GET', 'POST'))
 @login_required
-def show_client(client):
+def single_client(client):
     # Configure a current client variable to be client_id
     g.client = client
 

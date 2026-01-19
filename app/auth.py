@@ -76,7 +76,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = res['user_id']
-            return redirect(url_for('main'))
+            return redirect(url_for('main.map'))
         
         flash(error)
     
@@ -89,7 +89,7 @@ def load_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute('SELECT * FROM user WHERE id = ?', user_id).fetchone()
+        g.user = get_db().execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
 
 @bp.route('/logout')
 def logout():
