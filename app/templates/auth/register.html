@@ -28,4 +28,8 @@
         {% endwith %}
 {% endblock %}
 
+{% block login %}
+        <a class="mt-4 text-white fw-bold text-decoration-none" href="{{ url_for('auth.login')}}">Already have an account? Sign in here</a>
+{% endblock %} 
+
 {% block jsscripts %}{% endblock %}
