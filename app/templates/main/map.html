@@ -1,5 +1,10 @@
 {% extends "main/basemain.html" %}
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}      
+        <div class="position-absolute text-danger.">{{ messages[0]}}</div>
+        {% endif %}
+    {% endwith %}
         <main class="row container-fluid p-0 m-0">
                 <div class="col-2 border-right fs-4 d-flex flex-column justify-content-between my-5">
                     <div class="container p-3 mx-4">

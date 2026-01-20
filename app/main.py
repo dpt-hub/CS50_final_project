@@ -1,7 +1,7 @@
 from .db import get_db
 from .auth import login_required
 
-from flask import Blueprint, request, g, url_for, render_template, jsonify
+from flask import Blueprint, request, g, url_for, render_template, jsonify, flash
 
 import json
 
@@ -10,10 +10,43 @@ from markupsafe import escape
 
 bp = Blueprint('main', __name__, url_prefix='/main')
 
-@bp.route('/')
+@bp.route('/', methods=('GET', 'POST'))
 @login_required
 def map():
     
+    error = None
+    if request.method == 'POST':
+        name = request.form.get("name")
+        type = request.form.get("type")
+        latitude = request.form.get("latitude")
+        longitude = request.form.get("longitude")
+
+        if not name:
+            error = "Client's name required."
+        elif not type:
+            error = "Client's type required."
+        elif not latitude or not longitude:
+            error = "Couldn\'t retrieve lat or lon values."
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+        except ValueError:
+            # TODO: Change error message after debugging
+            error = "Couldn\'t convert lat or lon values to integers."
+        
+        if error is None:
+            db = get_db()
+            cur = db.cursor()
+            try:
+                cur.execute('INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)', 
+                (g.user["user_id"], name, type, latitude, longitude))
+                db.commit()
+            except db.IntegrityError:
+                # TODO: Change error message after debugging
+                error = 'Couldn\'t insert data to database.'
+
+    if error is not None:
+        flash(error)
     # Render map
     return render_template('main/map.html')
 
@@ -109,24 +142,4 @@ def fetch_clients():
         
     return jsonify(temp)
 
-@bp.route('/create-client/<marker>')
-@login_required
-def create_clients(marker):
-    # Fetch user's client database from db
-    new_client = json.load(marker)
-    db = get_db()
-    cur = db.cursor()
-    error = None
-    try:
-        name = new_client["name"]
-        type = new_client["type"]
-        latitude = new_client["latitude"]
-        longitude = new_client["longitude"]
-        cur.execute('INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)', 
-        (g.user["user_id"], name, type, latitude, longitude))
-        db.commit()
-    except db.IntegrityError:
-        error = 'Something went wrong.'
-
-    if error is not None:
-        flash(error)
+    
