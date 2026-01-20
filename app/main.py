@@ -148,4 +148,10 @@ def fetch_logo():
     
     return send_from_directory('static', 'logo.svg')
 
+@bp.route('/fetch/tempmarker')
+@login_required
+def fetch_marker():
+    
+    return send_from_directory('static', 'tempmarker.svg')
+
     

@@ -2,24 +2,37 @@
 var map = L.map('map').setView([40.270, -7.489], 13);
 
 var customMarker;
-
-async function loadCustomMarker() {
-    const url = "fetch/logo"
+var tempMarker;
+async function loadCustomMarkers() {
+    let url = "fetch/logo"
     const options = {
         method: "GET"
     }
     let response = await fetch(url, options)
-    const imageBlob = await response.blob();
-    const imageObjectURL = URL.createObjectURL(imageBlob);
+    let imageBlob = await response.blob();
+    let imageObjectURL = URL.createObjectURL(imageBlob);
+
     customMarker = L.icon({
     iconUrl: imageObjectURL,
-    iconSize: [35, 35],
-    iconAnchor: [17.5, 35],
-    popupAnchor: [-4, -88],
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -35],
+    });
+
+    url = 'fetch/tempmarker'
+    response = await fetch(url, options)
+    imageBlob = await response.blob()
+    imageObjectURL = URL.createObjectURL(imageBlob);
+
+    tempMarker = L.icon({
+    iconUrl: imageObjectURL,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -35],
     });
 }
 
-loadCustomMarker()
+loadCustomMarkers()
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -48,13 +61,13 @@ let addedMarker;
 let onMapClick = (e) => {
     if (!isMarkerAdded)
     {
-        addedMarker = L.marker(e.latlng, {icon: customMarker}).addTo(map);
+        addedMarker = L.marker(e.latlng, {icon: tempMarker}).addTo(map);
         isMarkerAdded = true;
     }
     else
     {
         addedMarker.remove();
-        addedMarker = L.marker(e.latlng, {icon: customMarker}).addTo(map);
+        addedMarker = L.marker(e.latlng, {icon: tempMarker}).addTo(map);
     }
 }
 
