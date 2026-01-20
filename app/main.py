@@ -3,6 +3,8 @@ from .auth import login_required
 
 from flask import Blueprint, request, g, url_for, render_template, jsonify
 
+import json
+
 # Add variables to flask.route
 from markupsafe import escape
 
@@ -106,3 +108,25 @@ def fetch_clients():
             })
         
     return jsonify(temp)
+
+@bp.route('/create-client/<marker>')
+@login_required
+def create_clients(marker):
+    # Fetch user's client database from db
+    new_client = json.load(marker)
+    db = get_db()
+    cur = db.cursor()
+    error = None
+    try:
+        name = new_client["name"]
+        type = new_client["type"]
+        latitude = new_client["latitude"]
+        longitude = new_client["longitude"]
+        cur.execute('INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)', 
+        (g.user["user_id"], name, type, latitude, longitude))
+        db.commit()
+    except db.IntegrityError:
+        error = 'Something went wrong.'
+
+    if error is not None:
+        flash(error)

@@ -22,3 +22,24 @@ async function loadClients() {
 }
 
 loadClients()
+
+let addClient = () => {
+    
+}
+
+let isMarkerAdded = false;
+let addedMarker;
+let onMapClick = (e) => {
+    if (!isMarkerAdded)
+    {
+        addedMarker = L.marker(e.latlng).addTo(map);
+        isMarkerAdded = true;
+    }
+    else
+    {
+        addedMarker.remove();
+        addedMarker = L.marker(e.latlng).addTo(map);
+    }
+}
+
+map.on("click", onMapClick)

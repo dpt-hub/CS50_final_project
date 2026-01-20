@@ -9,7 +9,6 @@ def homepage():
 @bp.route('/features')
 def features():
 
-    # TODO: Create html file
     return render_template('home/features.html')
 
 @bp.route('/pricing')
@@ -19,5 +18,4 @@ def pricing():
 @bp.route('/about-us')
 def about_us():
 
-    # TODO: Create html file
     return render_template('home/about_us.html')
