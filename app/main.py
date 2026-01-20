@@ -51,13 +51,27 @@ def map():
     return render_template('main/map.html')
 
 
-@bp.route('/clients')
+@bp.route('/clients', methods=("GET", "POST"))
 @login_required
 def client_list():
-
+    
+    if request.method == "POST":
+        print("Sup")
+        
+    
+    
+    
+    
+    
+    # Fetch user's client database from db
+    db = get_db()
+    cur = db.cursor()
+    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+    for client in clients:
+        print(client["name"])
     # TODO: Add client data to list logic
 
-    return render_template('main/clients.html')
+    return render_template('main/clients.html', clients=clients)
 
 
 @bp.route('/clients/<client>', methods=('GET', 'POST'))
@@ -146,12 +160,12 @@ def fetch_clients():
 @login_required
 def fetch_logo():
     
-    return send_from_directory('static', 'logo.svg')
+    return send_from_directory('static', 'images/logo.svg')
 
 @bp.route('/fetch/tempmarker')
 @login_required
 def fetch_marker():
     
-    return send_from_directory('static', 'tempmarker.svg')
+    return send_from_directory('static', 'images/tempmarker.svg')
 
     

@@ -105,6 +105,11 @@ input[type="range"]:focus::-webkit-slider-thumb {
     outline: 4px solid #ffb578d3;
 }
 
+.form-check-input:checked {
+    background-color: #fd7e14;
+    border-color: #ca6510;
+}
+
 .feature-icon-small {
     width: 3rem;
     height: 3rem;
