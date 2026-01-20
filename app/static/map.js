@@ -40,8 +40,14 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }).addTo(map);
 
 let addMarker = (lat, lon) => {
-    let marker = L.marker([lat, lon], {icon: customMarker}).addTo(map);
-    return marker
+    if (!customMarker) {
+        let marker = L.marker([lat, lon]).addTo(map);
+        return marker
+    }
+    else {
+        let marker = L.marker([lat, lon], {icon: customMarker}).addTo(map);
+        return marker
+    }
 }
 
 async function loadClients() {
