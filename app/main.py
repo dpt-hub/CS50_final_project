@@ -1,7 +1,7 @@
 from .db import get_db
 from .auth import login_required
 
-from flask import Blueprint, request, g, url_for, render_template, jsonify, flash
+from flask import Blueprint, request, g, url_for, render_template, jsonify, flash, send_from_directory
 
 import json
 
@@ -118,7 +118,7 @@ def reports():
 
     return render_template('main/reports.html')
 
-@bp.route('/fetch-clients')
+@bp.route('/fetch/clients')
 @login_required
 def fetch_clients():
     # Fetch user's client database from db
@@ -141,5 +141,11 @@ def fetch_clients():
             })
         
     return jsonify(temp)
+
+@bp.route('/fetch/logo')
+@login_required
+def fetch_logo():
+    
+    return send_from_directory('static', 'logo.svg')
 
     
