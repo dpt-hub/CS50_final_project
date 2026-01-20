@@ -43,3 +43,20 @@ let onMapClick = (e) => {
 }
 
 map.on("click", onMapClick)
+
+let addClientButton = document.querySelector('#addclient')
+addClientButton.addEventListener("click", () => {
+    if(!isMarkerAdded)
+    {
+        alert('Select a point on the map.')
+    }
+    else
+    {
+        addedMarker.bindPopup('<form method="post"><h6 class="fs-5 fw-bold">Add New Client:</h6><div class="form-group mb-2"><label for="name">Name:</label><input id="name" class="form-control" type="text" required></div><div class="form-group mb-2"><label for="type">Type:</label><input id="type" class="form-control" type="text" required></div><input type="hidden" value="" id="latitude"><input type="hidden" value="" id="longitude"><div class="d-grid col-2 mx-auto justify-content-center"><button class="btn btn-primary" type="submit">Submit</button></div></form>')
+        .openPopup()
+        let latInput = document.getElementById('latitude')
+        let lonInput = document.getElementById('longitude')
+        latInput.value = addedMarker.getLatLng()["lat"]
+        lonInput.value = addedMarker.getLatLng()["lng"]
+    }
+})
