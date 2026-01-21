@@ -138,3 +138,13 @@ input[type="range"]:focus::-webkit-slider-thumb {
 #map {
     height: 90.1vh;
 }
+
+.active-asc-arrow:after {
+    content: ' ▲';
+    color: #fd7e14;
+}
+
+.active-dsc-arrow:after {
+    content: ' ▼';
+    color: #fd7e14;
+}

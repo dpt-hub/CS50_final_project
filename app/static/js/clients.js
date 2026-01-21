@@ -34,14 +34,31 @@ let sortData = () => {
                     }
                 }
             }
+            for (let k = 1; k < columnRow.childElementCount; k++)
+            {
+                const arrow = document.querySelector(`#arrow${k}`)
+                if (k === i && sortingDirection == "ascending")
+                {
+                    arrow.className = 'active-asc-arrow'
+                }
+                else if (k === i && sortingDirection == "descending")
+                {
+                    arrow.className = 'active-dsc-arrow'
+                }
+                else 
+                {
+                    arrow.className = 'inactive'
+                }
+            }
             if (sortingDirection == "ascending") 
             {
+                
                 sortingDirection = "descending"
             }
             else 
             {
                 sortingDirection = "ascending"
-            }            
+            }
         })
     }
 }
