@@ -148,3 +148,8 @@ input[type="range"]:focus::-webkit-slider-thumb {
     content: ' ▼';
     color: #fd7e14;
 }
+
+.inactive-arrow:after {
+    content: ' ▼';
+    color: #ffffff00
+}

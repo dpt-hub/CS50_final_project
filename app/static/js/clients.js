@@ -47,7 +47,7 @@ let sortData = () => {
                 }
                 else 
                 {
-                    arrow.className = 'inactive'
+                    arrow.className = 'inactive-arrow'
                 }
             }
             if (sortingDirection == "ascending") 
@@ -63,12 +63,9 @@ let sortData = () => {
     }
 }
 
-sortData()
-    
-    
-        // When column header data is clicked sort the table according to a sorting function
-        // Make sure to change the innerText of the table header selected to reflect an arrow up or down (sorting feedback)
-    // Sorting Algorithm
+sortData();
+
+
 
 let createClient = document.querySelector('#createClient')
 
