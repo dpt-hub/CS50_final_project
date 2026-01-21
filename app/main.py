@@ -72,21 +72,25 @@ def client_list():
             except ValueError:
                 error = 'Invalid coordinates.'
 
+        
         # Store user's edit in database.
-        try:
-            db = get_db()
-            cur = db.cursor()
-            cur.execute(
-                'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
-                (g.user['user_id'], name, type, latitude, longitude)
-            )
-            db.commit()
-        except db.ProgrammingError:
-            error = 'Couldn\'t save information.'
-
-        clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+        if error is None:
+            try:
+                db = get_db()
+                cur = db.cursor()
+                cur.execute(
+                    'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
+                    (g.user['user_id'], name, type, latitude, longitude)
+                )
+                db.commit()
+            except db.IntegrityError:
+                error = 'Couldn\'t save information.'
+                
 
         if error is not None:
+            db = get_db()
+            cur = db.cursor()
+            clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
             flash(error)
 
         return render_template('main/clients.html', clients=clients)
