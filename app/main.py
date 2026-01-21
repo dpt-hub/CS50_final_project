@@ -55,23 +55,51 @@ def map():
 @login_required
 def client_list():
     
-    if request.method == "POST":
-        print("Sup")
-        
-    
-    
-    
-    
-    
-    # Fetch user's client database from db
-    db = get_db()
-    cur = db.cursor()
-    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-    for client in clients:
-        print(client["name"])
-    # TODO: Add client data to list logic
+    if request.method == 'POST':
+        name = request.form.get('name')
+        type = request.form.get('type')
+        latitude = request.form.get('latitude')
+        longitude = request.form.get('longitude')
+        error = None
 
-    return render_template('main/clients.html', clients=clients)
+        # Check if user's input is correct
+        if not name or not type or not latitude or not longitude:
+            error = 'Missing required fields.'
+        else:
+            try:
+                float(latitude)
+                float(longitude)
+            except ValueError:
+                error = 'Invalid coordinates.'
+
+        # Store user's edit in database.
+        try:
+            db = get_db()
+            cur = db.cursor()
+            cur.execute(
+                'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
+                (g.user['user_id'], name, type, latitude, longitude)
+            )
+            db.commit()
+        except db.ProgrammingError:
+            error = 'Couldn\'t save information.'
+
+        clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+
+        if error is not None:
+            flash(error)
+
+        return render_template('main/clients.html', clients=clients)
+    
+    else:
+        # Fetch user's client database from db
+        db = get_db()
+        cur = db.cursor()
+        clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+
+        # TODO: Add client data to list logic
+
+        return render_template('main/clients.html', clients=clients)
 
 
 @bp.route('/clients/<client>', methods=('GET', 'POST'))
