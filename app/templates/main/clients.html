@@ -6,28 +6,30 @@
             <h2>Clients</h2>
         </div>
         <div class="container">
-            <table id="clientTable" class="table table-hover mt-4">
-                <thead>
-                    <tr style="cursor: pointer;">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Name <span id="arrow1" class="inactive-arrow"></span></th>
-                        <th scope="col">Type <span id="arrow2" class="inactive-arrow"></span></th>
-                        <th scope="col">Latitude <span id="arrow3" class="inactive-arrow"></span></th>
-                        <th scope="col">Longitude <span id="arrow4" class="inactive-arrow"></span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for client in clients %}
-                        <tr>
-                            <td><input type="checkbox" name="" class="form-check-input client-selected" value="{{ client['client_id'] }}"></td>
-                            <td class="clientName">{{ client["name"] }}</td>
-                            <td class="clientType">{{ client["type"] }}</td>
-                            <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>
-                            <td class="clientLon">{{ "{0:0.3f}".format(client["longitude"]) }}</td>
+            <form method="post">
+                <table id="clientTable" class="table table-hover mt-4">
+                    <thead>
+                        <tr style="cursor: pointer;">
+                            <th scope="col"><input class="form-check-input" id="master" type="checkbox"></th>
+                            <th scope="col">Name<span id="arrow1" class="inactive-arrow"></span></th>
+                            <th scope="col">Type<span id="arrow2" class="inactive-arrow"></span></th>
+                            <th scope="col">Latitude<span id="arrow3" class="inactive-arrow"></span></th>
+                            <th scope="col">Longitude<span id="arrow4" class="inactive-arrow"></span></th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td><input type="checkbox" name="" class="form-check-input client-checkbox"></td>
+                                <td class="clientName">{{ client["name"] }}</td>
+                                <td class="clientType">{{ client["type"] }}</td>
+                                <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>
+                                <td class="clientLon">{{ "{0:0.3f}".format(client["longitude"]) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
             <button type="button" class="btn btn-primary btn-sm" id="createClient"><svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                 </svg>
