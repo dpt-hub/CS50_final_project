@@ -10,25 +10,25 @@
                 <thead>
                     <tr style="cursor: pointer;">
                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col" onclick="sortTable(1)">
+                        <th scope="col">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-filter align-text-bottom" viewBox="0 0 16 16">
                                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                             </svg> 
                             Name
                         </th>
-                        <th scope="col" onclick="sortTable(2)">
+                        <th scope="col">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-filter align-text-bottom" viewBox="0 0 16 16">
                                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                             </svg> 
                             Type
                         </th>
-                        <th scope="col" onclick="sortTable(3)">
+                        <th scope="col">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-filter align-text-bottom" viewBox="0 0 16 16">
                                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                             </svg> 
                             Latitude
                         </th>
-                        <th scope="col" onclick="sortTable(4)">
+                        <th scope="col">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-filter align-text-bottom" viewBox="0 0 16 16">
                                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                             </svg> 
@@ -48,7 +48,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <button type="button" class="btn btn-primary btn-sm" id="createClient"><svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                 </svg>
                 Create New Client
