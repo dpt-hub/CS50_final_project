@@ -23,10 +23,15 @@
                     <thead>
                         <tr style="cursor: pointer;">
                             <th scope="col"><input class="form-check-input" id="master" type="checkbox"></th>
-                            <th scope="col">Name<span id="arrow1" class="inactive-arrow"></span></th>
-                            <th scope="col">Type<span id="arrow2" class="inactive-arrow"></span></th>
-                            <th scope="col">Latitude<span id="arrow3" class="inactive-arrow"></span></th>
-                            <th scope="col">Longitude<span id="arrow4" class="inactive-arrow"></span></th>
+                            {% set ns = namespace(counter = 1) %}
+                            {% for key in clients[0].keys() %}
+                                {% if key == "client_id" or key == "user_id" %}
+                                {% else %}
+                                    <th scope="col">{{ key.title() }}<span id="arrow{{ ns.counter }}" class="inactive-arrow"></span></th>
+                                    {% set ns.counter = ns.counter + 1 %}
+                                {% endif%}
+
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>

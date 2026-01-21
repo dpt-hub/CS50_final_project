@@ -100,7 +100,7 @@ def client_list():
         db = get_db()
         cur = db.cursor()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-
+        print(clients[0].keys())
         # TODO: Add client data to list logic
 
         return render_template('main/clients.html', clients=clients)
