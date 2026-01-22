@@ -22,6 +22,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post">
+                        <input type="hidden" name="createClient">
                         <div class="modal-body">
                             {% set ns = namespace(counter = 1) %}
                             {% for key in clients[0].keys() %}
@@ -49,6 +50,26 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="deleteClient" tabindex="-1" aria-labelledby="deleteClient" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteClientLabel">Delete Selected Clients?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <div class="modal-body">
+                            <p class="mb-3">This action is permanent and irreversible. Deleting these clients will immediately remove all associated records from the system.</p>
+                            <p class="mb-3">Once confirmed, this information cannot be recovered.</p>
+                                <label for="confirmDeletion" class=" fw-bold">Type "DELETE" below to confirm this action:</label>
+                                <input class="form-control" type="text" name="confirmDeletion" id="confirmDeletion">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                            <button type="submit" form="selectedClients" class="btn btn-danger" id="confirmDeletionButton" disabled>Delete Clients</button>
+                        </div>
+                </div>
+            </div>
+        </div>
         <div class="d-flex justify-content-between">
             <h2>Clients</h2>
                 <div>
@@ -58,13 +79,14 @@
                         </svg>
                         Create New Client
                     </button>
-                    <button type="submit" class="btn btn-danger" id="deleteClient" disabled>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClient">
                         Delete Client
                     </button>
                 </div>
         </div>
         <div class="container">
-            <form method="post">
+            <form method="post" id="selectedClients">
+                <input type="hidden" name="deleteClient">
                 <table id="clientTable" class="table table-hover mt-4">
                     <thead>
                         <tr style="cursor: pointer;">
@@ -83,7 +105,7 @@
                     <tbody>
                         {% for client in clients %}
                             <tr>
-                                <td><input type="checkbox" name="" class="form-check-input client-checkbox"></td>
+                                <td><input type="checkbox" name ="client_id{{loop.index0}}" value="{{ client['client_id'] }}" class="form-check-input client-checkbox"></td>
                                 <td class="clientName">{{ client["name"] }}</td>
                                 <td class="clientType">{{ client["type"] }}</td>
                                 <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>

@@ -56,37 +56,70 @@ def map():
 def client_list():
     
     if request.method == 'POST':
-        print(request.form)
-        name = request.form.get('name')
-        type = request.form.get('type')
-        latitude = request.form.get('latitude')
-        longitude = request.form.get('longitude')
         error = None
 
-        # Check if user's input is correct
-        if not name or not type or not latitude or not longitude:
-            error = 'Missing required fields.'
-        else:
-            try:
-                float(latitude)
-                float(longitude)
-            except ValueError:
-                error = 'Invalid coordinates.'
-
-        
-        # Store user's edit in database.
-        if error is None:
-            try:
+        # Handling client deletion
+        if request.form.get("deleteClient") is not None:
+            inputs = request.form.to_dict(True)
+            
+            if len(inputs) < 2:
+                error = "Select at least one client to delete."
+            else:
                 db = get_db()
                 cur = db.cursor()
-                cur.execute(
-                    'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
-                    (g.user['user_id'], name, type, latitude, longitude)
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = 'Couldn\'t save information.'
-                
+                count = 0
+                for input in inputs:
+                    count += 1
+                    if input == "deleteClient":
+                        print("deleteClient passed")
+                    else:
+                        print(f"Current count: {count}")
+                        print(inputs[input])
+                        try:
+                            client_id = inputs[input]
+                            cur.execute (
+                                'DELETE FROM clients WHERE client_id = ? AND user_id = ?',
+                                (client_id, g.user["user_id"])
+                            )
+                            db.commit()
+                        except:
+                            error = "DEBUG - DELETING DATA ERROR"
+
+        # Handling client creation
+        elif request.form.get("createClient") is not None:
+            name = request.form.get('name')
+            type = request.form.get('type')
+            latitude = request.form.get('latitude')
+            longitude = request.form.get('longitude')
+
+            # Check if user's input is correct
+            if not name or not type or not latitude or not longitude:
+                error = 'Missing required fields.'
+            else:
+                try:
+                    float(latitude)
+                    float(longitude)
+                except ValueError:
+                    error = 'Invalid coordinates.'
+
+            # Store user's edit in database.
+            if error is None:
+                try:
+                    db = get_db()
+                    cur = db.cursor()
+                    cur.execute(
+                        'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
+                        (g.user['user_id'], name, type, latitude, longitude)
+                    )
+                    db.commit()
+                except db.IntegrityError:
+                    error = 'Couldn\'t save information.'
+        
+        # Handling no form or evil user interaction with form after POST request
+        else:
+            error = 'Something went wrong.'
+            db = get_db()
+            cur = db.cursor()
 
         if error is not None:
             db = get_db()

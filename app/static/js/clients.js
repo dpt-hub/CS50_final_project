@@ -81,6 +81,23 @@ let changeStatus = (bool, Nodelist) => {
 
 selectAll();
 
+let confirmDeletion = () => {
+    let deleteButton = document.querySelector('#confirmDeletionButton')
+    let deleteInput = document.querySelector('#confirmDeletion')
+    deleteInput.addEventListener("input", () => {
+        if (deleteInput.value == "DELETE")
+        {
+            deleteButton.removeAttribute('disabled')
+        }
+        else if (!deleteButton.hasAttribute('disabled'))
+        {
+            deleteButton.setAttribute('disabled', true)
+        }
+    })
+}
+
+confirmDeletion();
+
 
 
 
