@@ -60,6 +60,7 @@ sortData();
 let checkboxLogic = () => {
     let mainCheckbox = document.querySelector('#master');
     let allClientCheckbox = document.querySelectorAll('.client-checkbox')
+    let deleteClientBut = document.querySelector('#deleteClientButton')
     let counter = 0;
 
     for (singleClientCheckbox of allClientCheckbox)
@@ -81,6 +82,7 @@ let checkboxLogic = () => {
             {
                 mainCheckbox.checked = false
             }
+            changeDelButStatus(counter, deleteClientBut)
         })
     }
 
@@ -96,6 +98,7 @@ let checkboxLogic = () => {
             changeStatus(false, allClientCheckbox)
             counter = 0
         }
+        changeDelButStatus(counter, deleteClientBut)
     })
 }
 checkboxLogic();
@@ -103,6 +106,17 @@ checkboxLogic();
 let changeStatus = (bool, Nodelist) => {
     for(let i = 0; i < Nodelist.length; i++) {
         Nodelist[i].checked = bool
+    }
+}
+
+let changeDelButStatus = (counter, button) => {
+    if (counter == 0)
+    {
+        button.setAttribute('disabled', true)
+    }
+    else
+    {
+        button.removeAttribute('disabled')
     }
 }
 
