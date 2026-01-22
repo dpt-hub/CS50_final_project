@@ -87,8 +87,8 @@ def client_list():
 
         # Handling client creation
         elif request.form.get("createClient") is not None:
-            name = request.form.get('name')
-            type = request.form.get('type')
+            name = request.form.get('name').strip()
+            type = request.form.get('type').strip()
             latitude = request.form.get('latitude')
             longitude = request.form.get('longitude')
 
