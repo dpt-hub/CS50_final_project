@@ -1,0 +1,17 @@
+{% extends "dependencies.html" %}
+
+{% block body %}
+    <main class="container mt-4">
+        <div class="text-center">
+            <h2 class="display-2 mb-3">404 - Not Found</h2>
+            <p class="mb-3">We can't find what you're looking for. It’s possible the link is broken or the record no longer exists. Please use the main navigation to find your way back.</p>
+            <a class="mb-3" href="{{ url_for('main.map') }}">
+                <button class="btn btn-lg btn-primary">
+                    Go Back
+                </button>
+            </a>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/clients.js') }}"></script>
+{% endblock %}

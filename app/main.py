@@ -1,8 +1,9 @@
 from .db import get_db
 from .auth import login_required
 
-from flask import Blueprint, request, g, url_for, render_template, jsonify, flash, send_from_directory
+from flask import Blueprint, request, g, url_for, render_template, jsonify, flash, send_from_directory, redirect, abort
 
+import werkzeug
 import json
 
 # Add variables to flask.route
@@ -139,15 +140,28 @@ def client_list():
         cur = db.cursor()
         columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+        print(clients[1]["client_id"])
         # TODO: Add client data to list logic
         return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
 
 
-@bp.route('/clients/<client>', methods=('GET', 'POST'))
+@bp.route('/clients/<client_id>', methods=('GET', 'POST'))
 @login_required
-def single_client(client):
+def single_client(client_id):
+    
+    # Check if client_id is related to current user_id (SECURITY MUST)
+    db = get_db()
+    cur = db.cursor()
+    client = cur.execute(
+        'SELECT * FROM clients WHERE client_id = ? AND user_id = ?',
+        (client_id, g.user["user_id"])
+    ).fetchone()
+
+    if client is None:
+        abort(404)
+    
     # Configure a current client variable to be client_id
-    g.client = client
+    g.client = client_id
 
     # After user tries to edit client
     if request.method == 'POST':
@@ -182,16 +196,7 @@ def single_client(client):
         except db.ProgrammingError:
             flash('Couldn\'t save information.')
 
-    # Load current client information
-    db = get_db()
-    cur = db.cursor()
-    client = cur.execute('SELECT * FROM clients WHERE client_id = ? AND user_id = ?', (g.client, g.user['user.id'])).fetchone()
-
-    # Check for error in retrieving client info
-    if client is None:
-        flash('Couldn\'t retrieve client\'s information.')
-
-    return render_template('main/client.html')
+    return render_template('main/client.html', client=client)
 
 @bp.route('/reports')
 @login_required
@@ -237,4 +242,7 @@ def fetch_marker():
     
     return send_from_directory('static', 'images/tempmarker.svg')
 
-    
+
+@bp.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('main/404.html'), 404

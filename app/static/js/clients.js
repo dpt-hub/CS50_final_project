@@ -1,7 +1,7 @@
 let sortData = () => {
     let table = document.querySelector("#clientTable")
     let columnRow = table.rows[0]
-    for(let i = 1; i < columnRow.childElementCount; i++)
+    for(let i = 1; i < columnRow.childElementCount - 1; i++)
     {
         let sortingDirection = "ascending"
         columnRow.children[i].addEventListener("click", () => {
@@ -26,7 +26,7 @@ let sortData = () => {
                     }
                 }
             }
-            for (let k = 1; k < columnRow.childElementCount; k++)
+            for (let k = 1; k < columnRow.childElementCount - 1; k++)
             {
                 const arrow = document.querySelector(`#arrow${k}`)
                 if (k === i && sortingDirection == "ascending")
