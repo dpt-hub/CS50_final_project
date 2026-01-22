@@ -57,29 +57,54 @@ let sortData = () => {
 
 sortData();
 
-let selectAll = () => {
-    let checkHeader = document.querySelector('#master');
-    checkHeader.addEventListener("click", () => {
+let checkboxLogic = () => {
+    let mainCheckbox = document.querySelector('#master');
+    let allClientCheckbox = document.querySelectorAll('.client-checkbox')
+    let counter = 0;
+
+    for (singleClientCheckbox of allClientCheckbox)
+    {
+        singleClientCheckbox.addEventListener("input", () => {
+            counter = 0
+            for (singleClientCheckbox of allClientCheckbox)
+            {
+                if(singleClientCheckbox.checked)
+                {
+                    counter++
+                }
+            }
+            if (counter == allClientCheckbox.length)
+            {
+                mainCheckbox.checked = true
+            }
+            else 
+            {
+                mainCheckbox.checked = false
+            }
+        })
+    }
+
+    mainCheckbox.addEventListener("click", () => {
         
-        clientChecks = document.querySelectorAll('.client-checkbox')
-        if(checkHeader.checked) 
+        if(mainCheckbox.checked) 
         {
-            changeStatus(true, clientChecks)
+            changeStatus(true, allClientCheckbox)
+            counter = allClientCheckbox.length
         }
         else
         {
-            changeStatus(false, clientChecks)
+            changeStatus(false, allClientCheckbox)
+            counter = 0
         }
     })
 }
+checkboxLogic();
 
 let changeStatus = (bool, Nodelist) => {
     for(let i = 0; i < Nodelist.length; i++) {
         Nodelist[i].checked = bool
     }
 }
-
-selectAll();
 
 let confirmDeletion = () => {
     let deleteButton = document.querySelector('#confirmDeletionButton')

@@ -15,107 +15,121 @@
 {% block content %}
     <main class="container mt-4">
         <div class="modal fade" id="createNewClient" tabindex="-1" aria-labelledby="createNewClient" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="createNewClientLabel">New Client Form</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="createNewClientLabel">New Client Form</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post">
+                            <input type="hidden" name="createClient">
+                            <div class="modal-body">
+                                {% set ns = namespace(counter = 1) %}
+                                {% for column in columnHeaders %}
+                                    {% if column["name"] == "client_id" or column["name"] == "user_id" %}
+                                    {% elif column["name"] == "latitude" or column["name"] == "longitude" %}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                            <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" required>
+                                            <div class="form-text">Enter coordinates in decimal format (e.g., 40.7128).</div>
+                                        </div>
+                                    {% else %}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                            <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" required>
+                                        </div>
+                                        {% set ns.counter = ns.counter + 1 %}
+                                    {% endif%}
+                                {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <form method="post">
-                        <input type="hidden" name="createClient">
-                        <div class="modal-body">
-                            {% set ns = namespace(counter = 1) %}
-                            {% for key in clients[0].keys() %}
-                                {% if key == "client_id" or key == "user_id" %}
-                                {% elif key == "latitude" or key == "longitude" %}
-                                    <div class="mb-3">
-                                        <label class="form-label" for="{{ key }}">{{ key.title() }}:</label>
-                                        <input class="form-control" type="text" name="{{ key }}" id="{{ key }}" required>
-                                        <div class="form-text">Enter coordinates in decimal format (e.g., 40.7128).</div>
-                                    </div>
-                                {% else %}
-                                    <div class="mb-3">
-                                        <label class="form-label" for="{{ key }}">{{ key.title() }}:</label>
-                                        <input class="form-control" type="text" name="{{ key }}" id="{{ key }}" required>
-                                    </div>
-                                    {% set ns.counter = ns.counter + 1 %}
-                                {% endif%}
-                            {% endfor %}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
                 </div>
             </div>
+        {% if clients|length == 0 %}
+        <div class="container text-center">
+            <h2 class="display-6 fw-normal mb-3">No clients to display</h2>
+            <p class="mb-0">It looks like there are no clients in the system yet.</p>
+            <p class="mb-3">Add a client record to unlock territory mapping and route optimization.</p>
+            <button type="button" class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#createNewClient">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+                Create New Client
+            </button>
         </div>
-        <div class="modal fade" id="deleteClient" tabindex="-1" aria-labelledby="deleteClient" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="deleteClientLabel">Delete Selected Clients?</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        {% else %}
+            <div class="modal fade" id="deleteClient" tabindex="-1" aria-labelledby="deleteClient" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteClientLabel">Delete Selected Clients?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <div class="modal-body">
+                                <p class="mb-3">This action is permanent and irreversible. Deleting these clients will immediately remove all associated records from the system.</p>
+                                <p class="mb-3">Once confirmed, this information cannot be recovered.</p>
+                                    <label for="confirmDeletion" class=" fw-bold">Type "DELETE" below to confirm this action:</label>
+                                    <input class="form-control" type="text" name="confirmDeletion" id="confirmDeletion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                                <button type="submit" form="selectedClients" class="btn btn-danger" id="confirmDeletionButton" disabled>Delete Clients</button>
+                            </div>
                     </div>
-                        <div class="modal-body">
-                            <p class="mb-3">This action is permanent and irreversible. Deleting these clients will immediately remove all associated records from the system.</p>
-                            <p class="mb-3">Once confirmed, this information cannot be recovered.</p>
-                                <label for="confirmDeletion" class=" fw-bold">Type "DELETE" below to confirm this action:</label>
-                                <input class="form-control" type="text" name="confirmDeletion" id="confirmDeletion">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
-                            <button type="submit" form="selectedClients" class="btn btn-danger" id="confirmDeletionButton" disabled>Delete Clients</button>
-                        </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-between">
-            <h2>Clients</h2>
-                <div>
-                    <button type="button" class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#createNewClient">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                        </svg>
-                        Create New Client
-                    </button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClient">
-                        Delete Client
-                    </button>
-                </div>
-        </div>
-        <div class="container">
-            <form method="post" id="selectedClients">
-                <input type="hidden" name="deleteClient">
-                <table id="clientTable" class="table table-hover mt-4">
-                    <thead>
-                        <tr style="cursor: pointer;">
-                            <th scope="col"><input class="form-check-input" id="master" type="checkbox"></th>
-                            {% set ns = namespace(counter = 1) %}
-                            {% for key in clients[0].keys() %}
-                                {% if key == "client_id" or key == "user_id" %}
-                                {% else %}
-                                    <th scope="col">{{ key.title() }}<span id="arrow{{ ns.counter }}" class="inactive-arrow"></span></th>
-                                    {% set ns.counter = ns.counter + 1 %}
-                                {% endif%}
+            <div class="d-flex justify-content-between">
+                <h2>Clients</h2>
+                    <div>
+                        <button type="button" class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#createNewClient">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            Create New Client
+                        </button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClient">
+                            Delete Client
+                        </button>
+                    </div>
+            </div>
+            <div class="container">
+                <form method="post" id="selectedClients">
+                    <input type="hidden" name="deleteClient">
+                    <table id="clientTable" class="table table-hover mt-4">
+                        <thead>
+                            <tr style="cursor: pointer;">
+                                <th scope="col"><input class="form-check-input" id="master" type="checkbox"></th>
+                                {% set ns = namespace(counter = 1) %}
+                                {% for column in columnHeaders %}
+                                    {% if column["name"] == "client_id" or column["name"] == "user_id" %}
+                                    {% else %}
+                                        <th scope="col">{{ column["name"].title() }}<span id="arrow{{ ns.counter }}" class="inactive-arrow"></span></th>
+                                        {% set ns.counter = ns.counter + 1 %}
+                                    {% endif%}
 
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for client in clients %}
-                            <tr>
-                                <td><input type="checkbox" name ="client_id{{loop.index0}}" value="{{ client['client_id'] }}" class="form-check-input client-checkbox"></td>
-                                <td class="clientName">{{ client["name"] }}</td>
-                                <td class="clientType">{{ client["type"] }}</td>
-                                <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>
-                                <td class="clientLon">{{ "{0:0.3f}".format(client["longitude"]) }}</td>
+                                {% endfor %}
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </form>
-        </div>
+                        </thead>
+                        <tbody>
+                            {% for client in clients %}
+                                <tr>
+                                    <td><input type="checkbox" name ="client_id{{loop.index0}}" value="{{ client['client_id'] }}" class="form-check-input client-checkbox"></td>
+                                    <td class="clientName">{{ client["name"] }}</td>
+                                    <td class="clientType">{{ client["type"] }}</td>
+                                    <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>
+                                    <td class="clientLon">{{ "{0:0.3f}".format(client["longitude"]) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        {% endif %}
     </main>
     <script src="{{ url_for('static', filename='js/clients.js') }}"></script>
 {% endblock %}

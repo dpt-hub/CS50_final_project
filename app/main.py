@@ -124,21 +124,23 @@ def client_list():
         if error is not None:
             db = get_db()
             cur = db.cursor()
+            columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
             clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
             flash(error)
-            return render_template('main/clients.html', clients=clients)
+            return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
         else:
+            columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
             clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-            return render_template('main/clients.html', clients=clients)
+            return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
     
     else:
         # Fetch user's client database from db
         db = get_db()
         cur = db.cursor()
+        columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
         # TODO: Add client data to list logic
-
-        return render_template('main/clients.html', clients=clients)
+        return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
 
 
 @bp.route('/clients/<client>', methods=('GET', 'POST'))
