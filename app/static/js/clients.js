@@ -81,40 +81,6 @@ let changeStatus = (bool, Nodelist) => {
 
 selectAll();
 
-let addClient = () => {
-    let createClient = document.querySelector('#createClient')
 
-    createClient.addEventListener("click", () => {
-        createClient.remove();
-        let table = document.getElementById("clientTable");
-        let newRow = table.insertRow();
-        
-        for(let i = 0; i < table.rows[0].childElementCount; i++)
-        {
-            if (i == 0) 
-            {
-                const submitButton = document.createElement("button");
-                submitButton.className = "btn btn-success btn-sm"
-                submitButton.type = "submit"
-                submitButton.innerText = "✓"
-                newCell = newRow.insertCell(i)
-                newCell.appendChild(submitButton)
-            }
-            else
-            {
-                const newInput = document.createElement("input");
-                newInput.className = ""
-                newInput.placeholder = `Client's ${table.rows[0].children[i].innerText.toLowerCase()}`
-                newInput.type = "text"
-                newInput.setAttribute ('required', true)
-                newInput.name = `${table.rows[0].children[i].innerText.toLowerCase()}`
-                newCell = newRow.insertCell(i)
-                newCell.appendChild(newInput);
-            }
-        }
-    })
-}
-
-addClient();
 
 

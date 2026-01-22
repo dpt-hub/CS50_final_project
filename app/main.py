@@ -56,6 +56,7 @@ def map():
 def client_list():
     
     if request.method == 'POST':
+        print(request.form)
         name = request.form.get('name')
         type = request.form.get('type')
         latitude = request.form.get('latitude')
@@ -92,15 +93,16 @@ def client_list():
             cur = db.cursor()
             clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
             flash(error)
-
-        return render_template('main/clients.html', clients=clients)
+            return render_template('main/clients.html', clients=clients)
+        else:
+            clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+            return render_template('main/clients.html', clients=clients)
     
     else:
         # Fetch user's client database from db
         db = get_db()
         cur = db.cursor()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-        print(clients[0].keys())
         # TODO: Add client data to list logic
 
         return render_template('main/clients.html', clients=clients)
