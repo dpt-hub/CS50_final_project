@@ -19,28 +19,26 @@ def map():
     if request.method == 'POST':
         name = request.form.get("name")
         type = request.form.get("type")
+        address = request.form.get("address")
         latitude = request.form.get("latitude")
         longitude = request.form.get("longitude")
 
-        if not name:
-            error = "Client's name required."
-        elif not type:
-            error = "Client's type required."
-        elif not latitude or not longitude:
-            error = "Couldn\'t retrieve lat or lon values."
+        if not name or not type or not address or not latitude or not longitude:
+            error = "Missing required fields."
+        
         try:
             latitude = float(latitude)
             longitude = float(longitude)
         except ValueError:
             # TODO: Change error message after debugging
-            error = "Couldn\'t convert lat or lon values to integers."
+            error = "Invalid coordinate format. Latitude and longitude must be numbers."
         
         if error is None:
             db = get_db()
             cur = db.cursor()
             try:
-                cur.execute('INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)', 
-                (g.user["user_id"], name, type, latitude, longitude))
+                cur.execute('INSERT INTO clients (user_id, name, type, address, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)', 
+                (g.user["user_id"], name, type, address, latitude, longitude))
                 db.commit()
             except db.IntegrityError:
                 # TODO: Change error message after debugging
@@ -90,11 +88,12 @@ def client_list():
         elif request.form.get("createClient") is not None:
             name = request.form.get('name').strip()
             type = request.form.get('type').strip()
+            address = request.form.get('address').strip()
             latitude = request.form.get('latitude')
             longitude = request.form.get('longitude')
 
             # Check if user's input is correct
-            if not name or not type or not latitude or not longitude:
+            if not name or not type or not address or not latitude or not longitude:
                 error = 'Missing required fields.'
             else:
                 try:
@@ -109,8 +108,8 @@ def client_list():
                     db = get_db()
                     cur = db.cursor()
                     cur.execute(
-                        'INSERT INTO clients (user_id, name, type, latitude, longitude) VALUES (?, ?, ?, ?, ?)',
-                        (g.user['user_id'], name, type, latitude, longitude)
+                        'INSERT INTO clients (user_id, name, type, address, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)',
+                        (g.user['user_id'], name, type, address, latitude, longitude)
                     )
                     db.commit()
                 except db.IntegrityError:
@@ -140,7 +139,6 @@ def client_list():
         cur = db.cursor()
         columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-        print(clients[1]["client_id"])
         # TODO: Add client data to list logic
         return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
 
@@ -163,14 +161,15 @@ def single_client(client_id):
 
     # After user tries to edit client
     if request.method == 'POST':
-        name = request.form.get('name')
-        type = request.form.get('type')
+        name = request.form.get('name').strip()
+        type = request.form.get('type').strip()
+        address = request.form.get('address').strip()
         latitude = request.form.get('latitude')
         longitude = request.form.get('longitude')
         error = None
 
         # Check if user's input is correct
-        if not name or not type or not latitude or not longitude:
+        if not name or not type or not address or not latitude or not longitude:
             error = 'Missing required fields.'
         else:
             try:
@@ -183,8 +182,8 @@ def single_client(client_id):
         if error is None:
             try:
                 cur.execute(
-                    'UPDATE clients SET name = ?, type = ?, latitude = ?, longitude = ? WHERE client_id = ?',
-                    (name, type, latitude, longitude, client_id)
+                    'UPDATE clients SET name = ?, type = ?, address = ?, latitude = ?, longitude = ? WHERE client_id = ?',
+                    (name, type, address, latitude, longitude, client_id)
                 )
                 db.commit()
             except db.ProgrammingError:
@@ -216,12 +215,13 @@ def fetch_clients():
 
     # Render clients into json to be processed by javascript code
     tempList = []
-        for client in clients:
-            tempDict = {}
-            for column in columnHeaders:
-                if not column["name"] == "client_id" or not column["name"] == "user_id":
-                    tempDict[column["name"]] = client[column["name"]] 
-            tempList.append(tempDict)
+    unwanted_columns = ("client_id", "user_id")
+    for client in clients:
+        tempDict = {}
+        for column in columnHeaders:
+            if column["name"] not in unwanted_columns:
+                tempDict[column["name"]] = client[column["name"]]                
+        tempList.append(tempDict)
             
     return jsonify(tempList)
 
