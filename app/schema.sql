@@ -17,6 +17,6 @@ CREATE TABLE clients (
 CREATE TABLE visits (
     visit_id INTEGER PRIMARY KEY,
     client_id INTEGER,
-    date DATETIME NOT NULL,
+    date TIMESTAMP NOT NULL,
     order_value INTEGER NOT NULL
 );
