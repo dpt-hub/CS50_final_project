@@ -56,7 +56,7 @@ async function loadClients() {
     for (let client of clients)
     {
         let marker = addMarker(client["latitude"], client["longitude"]);
-        marker.bindPopup(`<h6 class="fs-5 fw-bold text-center">${client["name"]}</h6><p><span class="fw-bold">Type:</span> ${client["type"]}</p><p><span class="fw-bold">Address:</span> ${client["address"]}</p><p><span class="fw-bold">Last Visit:</span> ${client["last_visit"]}</p>`)
+        marker.bindPopup(`<h6 class="fs-5 fw-bold text-center">${client["name"]}</h6><p><span class="fw-bold">Type:</span> ${client["type"]}</p><p><span class="fw-bold">Address:</span> ${client["address"]}</p>`)
     }
 }
 
@@ -87,7 +87,7 @@ addClientButton.addEventListener("click", () => {
     }
     else
     {
-        addedMarker.bindPopup('<form method="post"><h6 class="fs-5 fw-bold">Add New Client:</h6><div class="form-group mb-2"><label for="name">Name:</label><input id="name" name="name" class="form-control" type="text" required></div><div class="form-group mb-2"><label for="type">Type:</label><input id="type" name="type" class="form-control" type="text" required></div><input type="hidden" name="latitude" value="" id="latitude"><input type="hidden" name="longitude" value="" id="longitude"><div class="d-grid col-2 mx-auto justify-content-center"><button class="btn btn-primary" type="submit">Submit</button></div></form>')
+        addedMarker.bindPopup('<form method="post"><h6 class="fs-5 fw-bold">Add New Client:</h6><div class="form-group mb-2"><label for="name">Name:</label><input id="name" name="name" class="form-control" type="text" required></div><div class="form-group mb-2"><label for="type">Type:</label><input id="type" name="type" class="form-control" type="text" required></div><div class="form-group mb-2"><label for="address">Address:</label><input id="address" name="address" class="form-control" type="text" required></div><input type="hidden" name="latitude" value="" id="latitude"><input type="hidden" name="longitude" value="" id="longitude"><div class="d-grid col-2 mx-auto justify-content-center"><button class="btn btn-primary" type="submit">Submit</button></div></form>')
         .openPopup()
         let latInput = document.getElementById('latitude')
         let lonInput = document.getElementById('longitude')
