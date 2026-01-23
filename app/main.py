@@ -152,6 +152,7 @@ def single_client(client_id):
     # Check if client_id is related to current user_id (SECURITY MUST)
     db = get_db()
     cur = db.cursor()
+    columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
     client = cur.execute(
         'SELECT * FROM clients WHERE client_id = ? AND user_id = ?',
         (client_id, g.user["user_id"])
@@ -159,9 +160,6 @@ def single_client(client_id):
 
     if client is None:
         abort(404)
-    
-    # Configure a current client variable to be client_id
-    g.client = client_id
 
     # After user tries to edit client
     if request.method == 'POST':
@@ -169,34 +167,35 @@ def single_client(client_id):
         type = request.form.get('type')
         latitude = request.form.get('latitude')
         longitude = request.form.get('longitude')
+        error = None
 
         # Check if user's input is correct
         if not name or not type or not latitude or not longitude:
-            flash('Missing required fields.')
+            error = 'Missing required fields.'
         else:
             try:
                 float(latitude)
                 float(longitude)
             except ValueError:
-                flash('Invalid coordinates.')
+                error = 'Invalid coordinates.'
 
         # Store user's edit in database.
-        try:
-            db = get_db()
-            cur = db.cursor()
-            cur.execute(
-                'UPDATE clients SET name = ?, type = ?, lat = ?, lon = ? WHERE client_id = ?',
-                name,
-                type,
-                latitude,
-                longitude,
-                g.client
-            )
-            db.commit()
-        except db.ProgrammingError:
-            flash('Couldn\'t save information.')
+        if error is None:
+            try:
+                cur.execute(
+                    'UPDATE clients SET name = ?, type = ?, latitude = ?, longitude = ? WHERE client_id = ?',
+                    (name, type, latitude, longitude, client_id)
+                )
+                db.commit()
+            except db.ProgrammingError:
+                error = 'Something went wrong.'
+        
+        if error is None:
+            return redirect(url_for('main.client_list'))
+        else:
+            flash(error)
 
-    return render_template('main/client.html', client=client)
+    return render_template('main/client.html', client=client, columnHeaders=columnHeaders)
 
 @bp.route('/reports')
 @login_required
