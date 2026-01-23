@@ -6,7 +6,6 @@ import re
 
 bp = Blueprint('auth', __name__, url_prefix='/auth' )
 
-
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
 
@@ -52,7 +51,6 @@ def register():
         return render_template('auth/register.html')
             
 
-
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -86,6 +84,7 @@ def login():
     
     return render_template('auth/login.html')
 
+
 @bp.before_app_request
 def load_user():
     user_id = session.get('user_id')
@@ -95,10 +94,12 @@ def load_user():
     else:
         g.user = get_db().execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
+
 
 def login_required(view):
     @functools.wraps(view)
