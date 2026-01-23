@@ -1,9 +1,8 @@
 from .db import get_db
-
 from flask import Blueprint, g, request, render_template, flash, session, redirect, url_for
-
 from werkzeug.security import check_password_hash, generate_password_hash
 import functools
+import re
 
 bp = Blueprint('auth', __name__, url_prefix='/auth' )
 
@@ -15,6 +14,9 @@ def register():
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')
+            security_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d#?!@$%^&*-]{8,64}$"
+            pattern = re.compile(security_regex)
+            m = re.search(pattern, password)
             error = None
 
             if not email:
@@ -23,6 +25,8 @@ def register():
                 error = 'Password required.'
             elif password != confirm_password:
                 error = 'Matching passwords required.'
+            elif len(password) < 8 or not m:
+                error = 'Password does not meet the minimum security requirements.'
 
             if error:
                 flash(error)
