@@ -9,10 +9,9 @@ CREATE TABLE clients (
     user_id INTEGER,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
-    address TEXT NOT NULL
+    address TEXT NOT NULL,
     latitude REAL NOT NULL,
-    longitude REAL NOT NULL,
-    last_visit DATETIME
+    longitude REAL NOT NULL
 );
 
 CREATE TABLE visits (
