@@ -56,7 +56,7 @@ async function loadClients() {
     for (let client of clients)
     {
         let marker = addMarker(client["latitude"], client["longitude"]);
-        marker.bindPopup(`<b>Name:</b> ${client["name"]}<br><b>Type:</b> ${client["type"]}`)
+        marker.bindPopup(`<h6 class="fs-5 fw-bold text-center">${client["name"]}</h6><p><span class="fw-bold">Type:</span> ${client["type"]}</p><p><span class="fw-bold">Address:</span> ${client["address"]}</p><p><span class="fw-bold">Last Visit:</span> ${client["last_visit"]}</p>`)
     }
 }
 
