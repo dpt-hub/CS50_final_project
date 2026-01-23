@@ -12,15 +12,140 @@
         {% endif %}
     {% endwith %}
 {% endblock %}
-{% block body %}
-    <body>
-        
-
-
-
-
-
-
-
-    </body>
+{% block content %}
+    <main class="container mt-4">
+        <div class="modal fade" id="addNewVisit" tabindex="-1" aria-labelledby="addNewVisit" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addNewVisitLabel">New Visit Form</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post">
+                        <input type="hidden" name="addVisit">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="client_id">Client:</label>
+                                <select id="client_id" name="client_id" class="form-select">
+                                    <option selected>Select a client</option>
+                                    {% for client in clients %}
+                                        <option value="{{ client['client_id'] }}">{{ client["name"] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="date">Date:</label>
+                                <input class="form-control" type="date" value="" max="" name="date" id="date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="order_value">Order Value:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="text" name="order_value" placeholder="0.00" id="order_value" required>
+                                </div>
+                                <div class="form-text">Please enter the total amount in USD (numeric values only)</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add New Visit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if visits|length == 0 %}
+        <div class="container text-center">
+            <h2 class="display-6 fw-normal mb-3">Your Visit Reports are Empty</h2>
+            <p class="mb-0">It looks like you haven’t recorded any client interactions yet.</p>
+            <p class="mb-3">Add a visit to a specific client to start tracking dates and order values.</p>
+            <button type="button" class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#addNewVisit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+                Add New Visit
+            </button>
+        </div>
+        {% else %}
+            <div class="modal fade" id="deleteVisit" tabindex="-1" aria-labelledby="deleteVisit" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteVisitLabel">Delete Selected Visits?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <div class="modal-body">
+                                <p class="mb-3">This action is permanent and irreversible. Deleting these visits will immediately remove all associated records from the system.</p>
+                                <p class="mb-3">Once confirmed, this information cannot be recovered.</p>
+                                    <label for="confirmDeletion" class=" fw-bold">Type "DELETE" below to confirm this action:</label>
+                                    <input class="form-control" type="text" name="confirmDeletion" id="confirmDeletion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                                <button type="submit" form="selectedVisits" class="btn btn-danger" id="confirmDeletionButton" disabled>Delete Visits</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="display-6 fw-normal mb-3">Visits Report</h2>
+                    <div>
+                        <button type="button" class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#addNewVisit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            Add New Visit
+                        </button>
+                        <button type="button" class="btn btn-danger" id="deleteVisitButton" disabled data-bs-toggle="modal" data-bs-target="#deleteVisit">
+                            Delete Visits
+                        </button>
+                    </div>
+            </div>
+            <div class="container">
+                <form method="post" id="selectedVisits">
+                    <input type="hidden" name="deleteVisit">
+                    <table id="visitTable" class="table table-hover mt-4">
+                        <thead>
+                            <tr style="cursor: pointer;">
+                                <th scope="col"><input class="form-check-input" id="master" type="checkbox"></th>
+                                <th scope="col">Client's Name<span id="arrow1" class="inactive-arrow"></span></th>
+                                {% set ns = namespace(counter = 2) %}
+                                {% for column in columnHeaders %}
+                                    {% if column["name"] == "visit_id" or column["name"] == "client_id" %}
+                                    {% else %}
+                                        <th scope="col">{{ column["name"].title() }}<span id="arrow{{ ns.counter }}" class="inactive-arrow"></span></th>
+                                        {% set ns.counter = ns.counter + 1 %}
+                                    {% endif%}
+                                {% endfor %}
+                                <th scope="col" class="text-secondary">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for visit in visits %}
+                                <tr>
+                                    <td><input type="checkbox" name ="visit_id{{loop.index0}}" value="{{ visit['client_id'] }}" class="form-check-input visit-checkbox"></td>
+                                    {% for client in clients %}
+                                        {% if visit["client_id"] == client["client_id"] %}
+                                            <td class="clientName">{{ client["name"] }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td class="visitDate">{{ visit["date"].strftime('%Y-%m-%d') }}</td>
+                                    <td class="visitOrderValue">{{ '${:,.2f}'.format(visit["order_value"]) }}</td>
+                                    <td>
+                                        <a href="{{ url_for('main.single_visit', visit_id=visit['client_id'])}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        {% endif %}
+    </main>
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
 {% endblock %}

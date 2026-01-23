@@ -1,13 +1,11 @@
 from .db import get_db
 from .auth import login_required
-
 from flask import Blueprint, request, g, url_for, render_template, jsonify, flash, send_from_directory, redirect, abort
-
 import werkzeug
 import json
-
 # Add variables to flask.route
 from markupsafe import escape
+from datetime import datetime
 
 bp = Blueprint('main', __name__, url_prefix='/main')
 
@@ -69,11 +67,7 @@ def client_list():
                 count = 0
                 for input in inputs:
                     count += 1
-                    if input == "deleteClient":
-                        print("deleteClient passed")
-                    else:
-                        print(f"Current count: {count}")
-                        print(inputs[input])
+                    if input not in ("deleteClient"):
                         try:
                             client_id = inputs[input]
                             cur.execute (
@@ -124,14 +118,11 @@ def client_list():
         if error is not None:
             db = get_db()
             cur = db.cursor()
-            columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
-            clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
             flash(error)
-            return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
-        else:
-            columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
-            clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
-            return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
+
+        columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
+        clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+        return render_template('main/clients.html', clients=clients, columnHeaders=columnHeaders)
     
     else:
         # Fetch user's client database from db
@@ -196,13 +187,99 @@ def single_client(client_id):
 
     return render_template('main/client.html', client=client, columnHeaders=columnHeaders)
 
-@bp.route('/reports')
+@bp.route('/reports', methods=("GET", "POST"))
 @login_required
 def reports():
 
-    # TODO: Add client data to list logic
+    if request.method == 'POST':
+        db = get_db()
+        cur = db.cursor()
+        error = None
 
-    return render_template('main/reports.html')
+        # Handling visit deletion
+        if request.form.get("deleteVisit") is not None:
+            inputs = request.form.to_dict(True)
+            
+            if len(inputs) < 2:
+                error = "Select at least one visit to delete."
+            else:
+                count = 0
+                for input in inputs:
+                    count += 1
+                    if input not in ("visitClient"):
+                        try:
+                            visit_id = inputs[input]
+                            cur.execute (
+                                'DELETE FROM visits WHERE visit_id = ? AND client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
+                                (visit_id, g.user["user_id"])
+                            )
+                            db.commit()
+                        except:
+                            error = "DEBUG - DELETING DATA ERROR"
+
+        # Handling client creation
+        elif request.form.get("addVisit") is not None:
+            client_id = request.form.get("client_id")
+            date = request.form.get("date")
+            order_value = request.form.get("order_value")
+
+            # Check if user's input is correct
+            if not client_id or not date or not order_value:
+                error = 'Missing required fields.'
+            else:
+                try:
+                    float(order_value)
+                except ValueError:
+                    error = 'Invalid order value.'
+
+            # Store user's edit in database.
+            if error is None:
+                # Check if client_id is from user (SECURITY MUST)
+                    isClient = cur.execute(
+                                'SELECT * FROM clients WHERE user_id = ? AND client_id = ?',
+                                (g.user['user_id'], client_id)
+                                ).fetchone()
+                    if isClient is None:
+                        error = 'Invalid client association. Visit could not be recorded.'
+                    else:
+                        try:
+                            cur.execute(
+                                'INSERT INTO visits (client_id, date, order_value) VALUES (?, ?, ?)',
+                                (client_id, date, order_value)
+                            )
+                            db.commit()
+                        except db.IntegrityError:
+                            error = 'Couldn\'t save information.'
+        
+        # Handling no form or evil user interaction with form after POST request
+        else:
+            error = 'Something went wrong.'
+
+        if error is not None:
+            flash(error)
+
+        visits = cur.execute(
+            'SELECT * FROM visits WHERE client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
+            (g.user["user_id"],)
+            ).fetchall()
+        columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
+        clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+        return render_template('main/reports.html', visits=visits, clients=clients, columnHeaders=columnHeaders)
+
+    db = get_db()
+    cur = db.cursor()
+    columnHeaders = cur.execute('PRAGMA table_info(visits)').fetchall()
+    clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
+    visits = cur.execute(
+        'SELECT * FROM visits WHERE client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
+        (g.user["user_id"],)
+        ).fetchall()
+    return render_template('main/reports.html', visits=visits, clients=clients, columnHeaders=columnHeaders)
+
+@bp.route('/reports/<visit_id>', methods=('GET', 'POST'))
+@login_required
+def single_visit(visit_id):
+    abort(404)
 
 @bp.route('/fetch/clients')
 @login_required
