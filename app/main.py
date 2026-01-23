@@ -211,23 +211,19 @@ def fetch_clients():
     # Fetch user's client database from db
     db = get_db()
     cur = db.cursor()
+    columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
     clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
 
     # Render clients into json to be processed by javascript code
-    temp = []
-    for client in clients:
-        name = client["name"]
-        type = client["type"]
-        latitude = client["latitude"]
-        longitude = client["longitude"]
-        temp.append({
-            "name": name,
-            "type": type,
-            "latitude": latitude,
-            "longitude": longitude
-            })
-        
-    return jsonify(temp)
+    tempList = []
+        for client in clients:
+            tempDict = {}
+            for column in columnHeaders:
+                if not column["name"] == "client_id" or not column["name"] == "user_id":
+                    tempDict[column["name"]] = client[column["name"]] 
+            tempList.append(tempDict)
+            
+    return jsonify(tempList)
 
 @bp.route('/fetch/logo')
 @login_required
