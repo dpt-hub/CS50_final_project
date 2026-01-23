@@ -232,6 +232,12 @@ def reports():
                 except ValueError:
                     error = 'Invalid order value.'
 
+            if error is None:
+                try:
+                    date = datetime.strptime(date, "%Y-%m-%d")
+                except ValueError:
+                    error = 'Invalid date format.'
+
             # Store user's edit in database.
             if error is None:
                 # Check if client_id is from user (SECURITY MUST)
@@ -262,7 +268,7 @@ def reports():
             'SELECT * FROM visits WHERE client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
             (g.user["user_id"],)
             ).fetchall()
-        columnHeaders = cur.execute('PRAGMA table_info(clients)').fetchall()
+        columnHeaders = cur.execute('PRAGMA table_info(visits)').fetchall()
         clients = cur.execute('SELECT * FROM clients WHERE user_id = ?', (g.user["user_id"],)).fetchall()
         return render_template('main/reports.html', visits=visits, clients=clients, columnHeaders=columnHeaders)
 
