@@ -122,6 +122,7 @@
                                     <td><input type="checkbox" name ="client_id{{loop.index0}}" value="{{ client['client_id'] }}" class="form-check-input client-checkbox"></td>
                                     <td class="clientName">{{ client["name"] }}</td>
                                     <td class="clientType">{{ client["type"] }}</td>
+                                    <td class="clientType">{{ client["address"] }}</td>
                                     <td class="clientLat">{{ "{0:0.3f}".format(client["latitude"]) }}</td>
                                     <td class="clientLon">{{ "{0:0.3f}".format(client["longitude"]) }}</td>
                                     <td>
