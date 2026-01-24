@@ -1,3 +1,105 @@
+
+(async function() {
+    
+    let data = [];
+    let response = await fetch('fetch/visits');
+    let visits = await response.json();
+    for (let visit of visits)
+    {
+        tempObj = {};
+        
+        // Extract the year and month of current visit
+        tempObj["year"] = new Date(visit["date"]).getFullYear();
+        tempObj["month"] = new Intl.DateTimeFormat("en-US", {month: "long"}).format(new Date(visit["date"]));
+        
+        // Check for existing data with year and month of current visit
+        let counter = 0;
+        dataExists = false;
+        for (let obj of data)
+        {
+            if(obj["year"] == tempObj["year"] && obj["month"] == tempObj["month"])
+            {
+                dataExists = true;
+                break;
+            }
+            counter++;
+        }
+
+        if(dataExists)
+        {
+            data[counter]["visit_count"] += 1;
+            data[counter]["revenue"] += visit["order_value"];
+        }
+        else
+        {
+            tempObj["visit_count"] = 1;
+            tempObj["revenue"] = visit["order_value"];
+            data.push(tempObj)
+        } 
+    }
+  
+    new Chart(
+        document.getElementById('revenue'),
+        {
+            type: 'bar',
+            data: {
+                labels: data.map(row => row.month),
+                datasets: [
+                    {
+                    label: 'Revenue by month',
+                    data: data.map(row => row.revenue),
+                    borderColor: '#6afc27',
+                    backgroundColor: '#6afc27b7',
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function(value) {
+                                return '$ ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        }   
+    );
+
+    new Chart(
+        document.getElementById('visits'),
+        {
+            type: 'bar',
+            data: {
+                labels: data.map(row => row.month),
+                datasets: [
+                    {
+                    label: 'Visits by month',
+                    data: data.map(row => row.visit_count),
+                    borderColor: '#fd7e14',
+                    backgroundColor: '#fc8727b7',
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        }   
+    );
+
+})();
+
+
+
 let sortData = () => {
     let table = document.querySelector("#visitTable")
     if (table)

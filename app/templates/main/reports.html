@@ -152,6 +152,10 @@
                         </button>
                     </div>
             </div>
+            <div class="container d-flex justify-content-center gap-5 my-3" style="width:500px">
+                <canvas id="revenue"></canvas>
+                <canvas id="visits"></canvas>
+            </div>
             <div class="container">
                 <form method="post" id="selectedVisits">
                     <input type="hidden" name="deleteVisit">
@@ -198,5 +202,6 @@
             </div>
         {% endif %}
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
 {% endblock %}

@@ -372,6 +372,30 @@ def fetch_clients():
             
     return jsonify(tempList)
 
+@bp.route('/fetch/visits')
+@login_required
+def fetch_visits():
+    # Fetch user's visits database from db
+    db = get_db()
+    cur = db.cursor()
+    columnHeaders = cur.execute('PRAGMA table_info(visits)').fetchall()
+    visits = cur.execute(
+        'SELECT * FROM visits WHERE client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
+        (g.user["user_id"],)
+    ).fetchall()
+
+    # Render clients into json to be processed by javascript code
+    tempList = []
+    unwanted_columns = ("visit_id", "client_id")
+    for visit in visits:
+        tempDict = {}
+        for column in columnHeaders:
+            if column["name"] not in unwanted_columns:
+                tempDict[column["name"]] = visit[column["name"]]                
+        tempList.append(tempDict)
+            
+    return jsonify(tempList)
+
 @bp.route('/fetch/logo')
 @login_required
 def fetch_logo():
