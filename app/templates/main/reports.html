@@ -54,7 +54,21 @@
                 </div>
             </div>
         </div>
-        {% if visits|length == 0 %}
+        {% if clients|length == 0 %}
+        <div class="container text-center">
+            <h2 class="display-6 fw-normal mb-3">Let’s Get Your First Report Ready</h2>
+            <p class="mb-0">Your reports section is empty because you haven't added any clients or visits yet.</p>
+            <p class="mb-3">Create a client first, then return here to log your visit activity.</p>
+            <a href="{{ url_for('main.client_list')}}">
+                <button type="button" class="btn btn-primary mx-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                    </svg>
+                    Go to Clients Page
+                </button>
+            </a>
+        </div>
+        {% elif visits|length == 0 %}
         <div class="container text-center">
             <h2 class="display-6 fw-normal mb-3">Your Visit Reports are Empty</h2>
             <p class="mb-0">It looks like you haven’t recorded any client interactions yet.</p>
