@@ -85,4 +85,18 @@
             {% endfor %}
         </form>
     </main>
+    <script>
+        let dateInput = document.querySelector('#date')
+        console.log(dateInput.value)
+        current_date = new Date(dateInput.value)
+        const yyyy = current_date.getFullYear();
+        let mm = current_date.getMonth() + 1;
+        let dd = current_date.getDate();
+
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+
+        const formatted = yyyy + '-' + mm + '-' + dd;
+        dateInput.setAttribute('value', formatted)
+    </script>
 {% endblock %}
