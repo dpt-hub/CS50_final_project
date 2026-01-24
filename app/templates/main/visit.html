@@ -1,0 +1,89 @@
+{% extends "main/basemain.html" %}
+{% block error %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-danger d-flex align-items-center position-absolute error-alert fade show" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-exclamation-triangle-fill align-text-top me-2" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                <div class="me-2">{{ messages[0] }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+{% block content %}
+    <main class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="display-6 fw-normal mb-4">Visit Information</h2>
+            <div>
+                <button type="submit" class="btn btn-success mx-3" form="saveInformation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                    </svg>
+                    Save Information
+                </button>
+            </div>
+        </div>
+        <form method="post" id="saveInformation">
+            {% for column in columnHeaders %}
+                {% if column['name'] == "visit_id" %}
+                {% elif column['name'] == "client_id" %}
+                    <div class="container row mb-4">
+                        <div class="col">
+                            <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">Client's Name:</label>
+                            <select id="{{ column['name'] }}" name="{{ column['name'] }}" class="form-select">
+                                {% for client in clients %}
+                                    {% if client["client_id"] == visit["client_id"] %}
+                                    <option selected value="{{ client['client_id'] }}">{{ client["name"] }}</option>
+                                    {% else %}
+                                    <option value="{{ client['client_id'] }}">{{ client["name"] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                {% else %}
+                    {% if loop.length is divisibleby(2) %}
+                        {% if loop.index0 is divisibleby(2) %}
+                                <div class="col">
+                                    <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="container row mb-4">
+                                <div class="col">
+                                    <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                </div>
+                            
+                        {% endif %}            
+                    {% else %}
+                        {% if loop.index == loop.length %}
+                            <div class="container row mb-4">
+                                <div class="col">
+                                    <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                        {% elif loop.index0 is divisibleby(2) %}
+                                <div class="col">
+                                    <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="container row mb-4">
+                                <div class="col">
+                                    <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </form>
+    </main>
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+{% endblock %}
