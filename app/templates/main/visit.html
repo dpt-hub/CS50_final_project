@@ -47,14 +47,14 @@
                         {% if loop.index0 is divisibleby(2) %}
                                 <div class="col">
                                     <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
-                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ visit[column['name']] }}">
                                 </div>
                             </div>
                         {% else %}
                             <div class="container row mb-4">
                                 <div class="col">
                                     <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
-                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ visit[column['name']] }}">
                                 </div>
                             
                         {% endif %}            
@@ -63,21 +63,21 @@
                             <div class="container row mb-4">
                                 <div class="col">
                                     <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
-                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ visit[column['name']] }}">
                                 </div>
                                 <div class="col"></div>
                             </div>
                         {% elif loop.index0 is divisibleby(2) %}
                                 <div class="col">
                                     <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
-                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ visit[column['name']] }}">
                                 </div>
                             </div>
                         {% else %}
                             <div class="container row mb-4">
                                 <div class="col">
                                     <label class="form-label fw-bold text-secondary" for="{{ column['name'] }}">{{ column['name'].title() }}:</label>
-                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ client[column['name']] }}">
+                                    <input class="form-control" type="text" name="{{ column['name'] }}" id="{{ column['name'] }}" value="{{ visit[column['name']] }}">
                                 </div>
                         {% endif %}
                     {% endif %}

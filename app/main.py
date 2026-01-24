@@ -285,7 +285,71 @@ def reports():
 @bp.route('/reports/<visit_id>', methods=('GET', 'POST'))
 @login_required
 def single_visit(visit_id):
-    abort(404)
+        
+    # Check if visit_id is related to current user_id (SECURITY MUST)
+    db = get_db()
+    cur = db.cursor()
+    columnHeaders = cur.execute('PRAGMA table_info(visits)').fetchall()
+    clients = cur.execute(
+        'SELECT * FROM clients WHERE user_id = ?',
+        (g.user['user_id'],)
+    ).fetchall()
+    visit = cur.execute(
+        'SELECT * FROM visits WHERE visit_id = ? AND client_id IN (SELECT client_id FROM clients WHERE user_id = ?)',
+        (visit_id, g.user['user_id'])
+    ).fetchone()
+
+    if visit is None or clients is None:
+        abort(404)
+
+    # After user tries to edit client
+    if request.method == 'POST':
+        client_id = request.form.get('client_id')
+        date = request.form.get('date')
+        order_value = request.form.get('order_value')
+        error = None
+
+        # Check if user's input is correct
+        if not client_id or not date or not order_value:
+            error = 'Missing required fields.'
+        else:
+            try:
+                float(order_value)
+            except ValueError:
+                error = 'Invalid order value.'
+
+        # Check if client_id belongs to current user (SECURITY MUST)
+        if error is None:
+            client = cur.execute(
+                'SELECT * FROM clients WHERE client_id = ? AND user_id = ?',
+                (client_id, g.user['user_id'])
+            ).fetchone()
+            if client is None:
+                error = 'Invalid selected client.'
+
+        if error is None:
+            try:
+                date = datetime.strptime(date, "%Y-%m-%d")
+            except ValueError:
+                error = 'Invalid date format.'
+
+        # Store user's edit in database.
+        if error is None:
+            try:
+                cur.execute(
+                    'UPDATE visits SET client_id = ?, date = ?, order_value = ? WHERE visit_id = ?',
+                    (client_id, date, order_value, visit_id)
+                )
+                db.commit()
+            except db.ProgrammingError:
+                error = 'Something went wrong.'
+        
+        if error is None:
+            return redirect(url_for('main.reports'))
+        else:
+            flash(error)
+
+    return render_template('main/visit.html', visit=visit, clients=clients, columnHeaders=columnHeaders)
 
 @bp.route('/fetch/clients')
 @login_required
