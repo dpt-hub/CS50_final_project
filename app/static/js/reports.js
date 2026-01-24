@@ -37,8 +37,26 @@
             data[year][month]["visit_count"] = 1;
         }
     }
-
+    console.log(Object.keys(data))
+    let select = document.querySelector('#year')
     let current_year = new Date().getFullYear()
+    for (year of Object.keys(data))
+    {
+        if (year == current_year)
+        {
+            let option = document.createElement("option")
+            option.innerText = year
+            option.setAttribute('selected', true)
+            select.appendChild(option)
+        }
+        else
+        {
+            let option = document.createElement("option")
+            option.innerText = year
+            select.appendChild(option)
+        }
+    }
+
     let revenue = []
     let visitCount = []
 
@@ -54,9 +72,9 @@
             revenue.push(0)
             visitCount.push(0)
         }  
-    }
+    }    
 
-    new Chart(
+    revChart = new Chart(
         document.getElementById('revenue'),
         {
             type: 'bar',
@@ -75,7 +93,6 @@
                 scales: {
                     y: {
                         ticks: {
-                            // Include a dollar sign in the ticks
                             callback: function(value) {
                                 return '$ ' + value;
                             }
@@ -86,7 +103,7 @@
         }   
     );
 
-    new Chart(
+    visChart = new Chart(
         document.getElementById('visits'),
         {
             type: 'bar',
@@ -114,6 +131,28 @@
         }   
     );
 
+    select.addEventListener("change", () => {
+        let revenue = []
+        let visitCount = []
+
+        for(let i = 0; i < monthLabel.length; i++)
+        {
+            try 
+            { 
+                let obj = data[select.value][monthLabel[i]];
+                revenue.push(obj["revenue"])
+                visitCount.push(obj["visit_count"])
+            } 
+            catch {
+                revenue.push(0)
+                visitCount.push(0)
+            }  
+        }
+        revChart.data.datasets[0].data = revenue;
+        revChart.update();
+        visChart.data.datasets[0].data = visitCount;
+        visChart.update();
+    })
 })();
 
 
@@ -270,7 +309,7 @@ confirmDeletion();
 let defaultDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
+    let mm = today.getMonth() + 1;
     let dd = today.getDate();
 
     if (dd < 10) dd = '0' + dd;
