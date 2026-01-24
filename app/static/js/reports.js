@@ -1,53 +1,71 @@
 
 (async function() {
     
-    let data = [];
+    let data = {};
     let response = await fetch('fetch/visits');
     let visits = await response.json();
+    let monthLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     for (let visit of visits)
     {
         tempObj = {};
         
-        // Extract the year and month of current visit
-        tempObj["year"] = new Date(visit["date"]).getFullYear();
-        tempObj["month"] = new Intl.DateTimeFormat("en-US", {month: "long"}).format(new Date(visit["date"]));
-        
-        // Check for existing data with year and month of current visit
-        let counter = 0;
-        dataExists = false;
-        for (let obj of data)
+        // Extract the year and month
+        let year = new Date(visit["date"]).getFullYear();
+        let month = monthLabel[new Date(visit["date"]).getMonth()];
+        let dataExists = true;
+        // Year doesn't exist?
+        if (!data[year])
         {
-            if(obj["year"] == tempObj["year"] && obj["month"] == tempObj["month"])
-            {
-                dataExists = true;
-                break;
-            }
-            counter++;
+            data[year] = {};
+            dataExists = false;
         }
-
-        if(dataExists)
+        // Month doens't exist?
+        if (!data[year][month])
         {
-            data[counter]["visit_count"] += 1;
-            data[counter]["revenue"] += visit["order_value"];
+            data[year][month] = {}
+            dataExists = false;
+        }
+        
+        if (dataExists)
+        {
+            data[year][month]["revenue"] += visit["order_value"];
+            data[year][month]["visit_count"] += 1;
         }
         else
         {
-            tempObj["visit_count"] = 1;
-            tempObj["revenue"] = visit["order_value"];
-            data.push(tempObj)
-        } 
+            data[year][month]["revenue"] = visit["order_value"];
+            data[year][month]["visit_count"] = 1;
+        }
     }
-  
+
+    let current_year = new Date().getFullYear()
+    let revenue = []
+    let visitCount = []
+
+    for(let i = 0; i < monthLabel.length; i++)
+    {
+        try 
+        {
+            let obj = data[current_year][monthLabel[i]];
+            revenue.push(obj["revenue"])
+            visitCount.push(obj["visit_count"])
+        } 
+        catch {
+            revenue.push(0)
+            visitCount.push(0)
+        }  
+    }
+
     new Chart(
         document.getElementById('revenue'),
         {
             type: 'bar',
             data: {
-                labels: data.map(row => row.month),
+                labels: monthLabel,
                 datasets: [
                     {
                     label: 'Revenue by month',
-                    data: data.map(row => row.revenue),
+                    data: revenue,
                     borderColor: '#6afc27',
                     backgroundColor: '#6afc27b7',
                     }
@@ -73,11 +91,11 @@
         {
             type: 'bar',
             data: {
-                labels: data.map(row => row.month),
+                labels: monthLabel,
                 datasets: [
                     {
                     label: 'Visits by month',
-                    data: data.map(row => row.visit_count),
+                    data: visitCount,
                     borderColor: '#fd7e14',
                     backgroundColor: '#fc8727b7',
                     }
