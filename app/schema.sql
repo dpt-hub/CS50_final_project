@@ -11,12 +11,16 @@ CREATE TABLE clients (
     type TEXT NOT NULL,
     address TEXT NOT NULL,
     latitude REAL NOT NULL,
-    longitude REAL NOT NULL
+    longitude REAL NOT NULL,
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id) 
 );
 
 CREATE TABLE visits (
     visit_id INTEGER PRIMARY KEY,
     client_id INTEGER,
     date TIMESTAMP NOT NULL,
-    order_value INTEGER NOT NULL
+    order_value INTEGER NOT NULL,
+    FOREIGN KEY (client_id)
+        REFERENCES clients (client_id) 
 );
