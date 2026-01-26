@@ -8,7 +8,7 @@ RapidRep is a route management tool designed for field salespeople to visualize 
 
 Developed over 68 hours as a CS50x Final Project, I initially challenged myself to use only official language/framework documentation (meaning no StackOverflow, Reddit, ...) but I started regretting that decision as I began to realize that my learning progress was at stake (you learn alot by reading how people explain problems in different ways). Besides helping me with marketing copy, I didn't use LLM's for coding purposes.
 
-Video: ...
+#### Video: [https://youtu.be/lmFS3ih4i1s]
 
 ## Context Behind The Project
 
@@ -136,6 +136,8 @@ I’m really proud of how far this project has come, but as I look at it, there 
 - There’s no CSV uploader, so you have to enter every client by hand.
 
 - The reports are fixed. I wanted to make them customizable so users can pick what data they want to see.
+
+- If the user deletes a client, the visits of that client aren't deleted. This means that when the user creates another client those "dead" visits go to the client created.
 
 ### What I need to clean up in the code
 
