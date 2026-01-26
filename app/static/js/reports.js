@@ -37,7 +37,6 @@
             data[year][month]["visit_count"] = 1;
         }
     }
-    console.log(Object.keys(data))
     let select = document.querySelector('#year')
     let current_year = new Date().getFullYear()
     for (year of Object.keys(data))
