@@ -99,11 +99,11 @@ I built a reporting system that connects daily visits to revenue. Using Chart.js
 
 The process of logging a visit is integrated directly into the reports page to keep the workflow simple.
 
-![Reports screen of RapidRep's app, showing the add visit feature](/Images/Visits_report.png)
+![Reports screen of RapidRep's app, showing the add visit feature](/Images/Visits_report_add.png)
 
 Even when you're just starting out, the layout stays organized and ready for your first entries.
 
-![Reports screen of RapidRep's app, showing the report empty](/Images/Visits_report.png)
+![Reports screen of RapidRep's app, showing the report empty](/Images/Visits_report_empty.png)
 
 ## Self Constraint
 
